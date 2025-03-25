@@ -1,0 +1,7 @@
+{
+  "name": "proyectoweb",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
