@@ -7,5 +7,9 @@ import { Component } from '@angular/core';
   standalone: false,
 })
 export class AppComponent {
+  appPages = [
+    { title: 'Mi Perfil', url: '/profile', icon: 'person-circle' },
+  ];
   constructor() {}
 }
+

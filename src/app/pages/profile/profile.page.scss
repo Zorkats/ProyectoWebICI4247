@@ -1,0 +1,56 @@
+/* Resumen */
+.user-summary ion-item {
+    --inner-padding-end: 0;
+  }
+  
+  .avatar-xl {
+    width: 96px;
+    height: 96px;
+  }
+  
+  ion-card.user-summary h2 {
+    margin: 0;
+    font-weight: 600;
+    font-size: 20px;
+  }
+  
+  .section-title {
+    margin: 32px 0 16px;
+    font-weight: 600;
+    font-size: 18px;
+  }
+  
+  /* Estadísticas */
+  .stat-card {
+    --padding-start: 16px;
+    --padding-end: 16px;
+    text-align: center;
+    height: 120px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  
+  .stat-icon {
+    font-size: 24px;
+    margin-bottom: 4px;
+    color: var(--ion-color-primary);
+  }
+  
+  .stat-card h3 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 600;
+  }
+  
+  .stat-card p {
+    margin: 0;
+    font-size: 12px;
+    color: var(--ion-color-medium);
+  }
+  ion-content {
+    --background: #f9fafb;
+  }
+  ion-card {
+    --background: #ffffff;
+  }
