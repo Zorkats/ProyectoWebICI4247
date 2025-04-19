@@ -1,0 +1,215 @@
+// home.page.scss
+:host {
+  --ion-color-primary: #6BB5FF;
+  --ion-color-dark: #121212;
+  --ion-color-dark-contrast: #ffffff;
+  --ion-color-light: #f8f9fa;
+  --ion-color-light-contrast: #121212;
+  --ion-background-color: #ffffff;
+  --app-color-medium-text: #555555;
+  --app-color-cta-background: linear-gradient(90deg, #66A0BE 0%, #9CC0D9 100%);
+}
+
+
+
+// Content
+ion-content {
+  --background: var(--ion-background-color);
+}
+
+// Hero Section
+.hero-section {
+  padding: 40px 0 60px;
+  background-color: var(--ion-color-light);
+
+  .hero-text {
+    padding: 20px;
+
+    h1 {
+      font-size: 2.5rem;
+      font-weight: 800;
+      line-height: 1.2;
+      margin-bottom: 1rem;
+      color: var(--ion-color-dark);
+    }
+
+    p {
+      font-size: 1.1rem;
+      margin-bottom: 1.5rem;
+      color: var(--app-color-medium-text);
+    }
+  }
+
+  .cta-button {
+    --border-radius: 25px;
+    --padding-start: 25px;
+    --padding-end: 25px;
+    height: 45px;
+    font-weight: 500;
+    text-transform: none;
+  }
+
+  .hero-image-container {
+    padding: 20px;
+    max-width: 80%;
+    margin-left: auto;
+
+    img {
+      width: 100%;
+      height: auto;
+    }
+  }
+}
+
+// Steps Section
+.steps-section {
+  padding: 60px 20px;
+  background-color: white;
+
+  h2 {
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin-bottom: 40px;
+    color: var(--ion-color-dark);
+  }
+
+  .step-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    padding: 20px;
+    margin-bottom: 30px;
+
+    .step-number {
+      position: absolute;
+      top: 0;
+      transform: translateY(-50%);
+      width: 40px;
+      height: 40px;
+      background-color: var(--ion-color-primary);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      font-weight: bold;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .step-icon {
+      width: 120px;
+      height: 120px;
+      margin: 15px 0;
+      object-fit: contain;
+    }
+
+    h3 {
+      font-size: 1.2rem;
+      font-weight: 600;
+      text-align: center;
+      margin-bottom: 5px;
+      color: var(--ion-color-dark);
+    }
+
+    p {
+      font-size: 0.9rem;
+      color: var(--app-color-medium-text);
+      text-align: center;
+      margin: 0;
+    }
+  }
+
+
+}
+
+// CTA Section
+.cta-section {
+  padding: 40px 20px;
+
+  .cta-content {
+    background: var(--app-color-cta-background);
+    border-radius: 20px;
+    padding: 40px 20px;
+    color: white;
+    max-width: 800px;
+    margin: 0 auto;
+
+    h3 {
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    p {
+      font-size: 1.1rem;
+      margin-bottom: 25px;
+    }
+
+    .cta-button-main {
+      --border-radius: 25px;
+      --padding-start: 30px;
+      --padding-end: 30px;
+      font-weight: 600;
+      text-transform: none;
+      margin-top: 10px;
+    }
+  }
+}
+
+
+
+// Media Queries
+@media (max-width: 768px) {
+  .hero-section {
+    .hero-text {
+      h1 {
+        font-size: 2.2rem;
+      }
+    }
+  }
+
+  .app-footer {
+    .footer-logo {
+      justify-content: center;
+    }
+
+    h4 {
+      text-align: center;
+    }
+
+    ion-list ion-item {
+      justify-content: center;
+    }
+  }
+}
+
+// Media queries
+@media (max-width: 768px) {
+  ion-header ion-toolbar {
+    padding: 10px;
+  }
+}
+
+@media (min-width: 768px) {
+  .hero-section {
+    padding: 60px 0 80px;
+  }
+
+  .app-footer {
+    .footer-logo {
+      justify-content: flex-start;
+    }
+
+    h4 {
+      text-align: left;
+    }
+
+    ion-list ion-item {
+      justify-content: flex-start;
+    }
+  }
+}
+
+
