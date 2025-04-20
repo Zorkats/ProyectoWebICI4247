@@ -1,32 +1,31 @@
 .titulo {
-    font-size: 30px;
+  font-size: 30px;
 }
 
 #container {
-    display: flex;
-    flex-direction: row;
-    width: 250px;
-    gap: 10px;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    padding-left: 30px;
+  display: flex;
+  flex-direction: row;
+  width: 250px;
+  gap: 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 30px;
 }
 
 #right {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
 }
 
 .nombre {
-    font-size: 20px;
-    margin: 0px;
+  font-size: 20px;
+  margin: 0px;
 }
 
 .subnombre {
-    font-size: 15px;
-    color: rgb(130, 130, 130);
-    margin: 0px;
-    
+  font-size: 15px;
+  color: rgb(130, 130, 130);
+  margin: 0px;
 }
