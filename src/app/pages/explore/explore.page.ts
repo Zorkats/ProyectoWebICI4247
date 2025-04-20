@@ -16,7 +16,7 @@ interface Destination {
   standalone: false
 })
 export class ExplorePage implements OnInit {
-
+  menuType: string = 'overlay';
   // Propiedad para el valor del segmento de búsqueda
   searchCategorySegment: string = 'all';
   // Propiedad para el valor del segmento de exploración por categoría

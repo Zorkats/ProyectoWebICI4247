@@ -1,12 +1,14 @@
+
+<app-side-bar></app-side-bar>
+
+<div class="ion-page" id="main-content">
 <ion-header class="custom-explore-header" [translucent]="false">
   <ion-toolbar>
 
-    <div slot="start" class="start-slot-content">
-      <ion-button fill="clear" size="small" color="dark">
-        <ion-icon slot="icon-only" name="menu-outline"></ion-icon>
-      </ion-button>
-      <span class="header-title">Explorar</span>
-    </div>
+    <ion-buttons slot="start">
+      <ion-menu-button menu="sideMenu"></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Explorar</ion-title>
 
     <ion-buttons slot="end">
       <ion-item lines="none" class="header-search-item">
@@ -243,3 +245,4 @@
   </section>
 
 </ion-content>
+</div>
