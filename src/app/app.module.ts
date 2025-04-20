@@ -9,12 +9,11 @@ import { IonicModule, IonicRouteStrategy } from "@ionic/angular"
 
 import { AppComponent } from "./app.component"
 import { AppRoutingModule } from "./app-routing.module"
-import { SidebarComponent } from "./components/sidebar/sidebar.component"
-import { HomePage } from "./pages/home/home.page"
+import { SideBarComponent } from "./components/side-bar/side-bar.component"
 import { ProfilePage } from "./pages/profile/profile.page"
 
 @NgModule({
-  declarations: [AppComponent, SidebarComponent, HomePage, ProfilePage],
+  declarations: [AppComponent, SideBarComponent, ProfilePage],
   imports: [
     BrowserModule, 
     IonicModule.forRoot(), 
