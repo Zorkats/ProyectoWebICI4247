@@ -8,6 +8,7 @@ import { MisViajesPageRoutingModule } from './mis-viajes-routing.module';
 
 import { MisViajesPage } from './mis-viajes.page';
 import { SideBarComponent } from '../../components/side-bar/side-bar.component';
+import { TarjetaViajeComponent } from 'src/app/components/tarjeta-viaje/tarjeta-viaje.component';
 
 @NgModule({
   imports: [
@@ -16,6 +17,6 @@ import { SideBarComponent } from '../../components/side-bar/side-bar.component';
     IonicModule,
     MisViajesPageRoutingModule
   ],
-  declarations: [MisViajesPage, SideBarComponent]
+  declarations: [MisViajesPage, SideBarComponent, TarjetaViajeComponent]
 })
 export class MisViajesPageModule {}

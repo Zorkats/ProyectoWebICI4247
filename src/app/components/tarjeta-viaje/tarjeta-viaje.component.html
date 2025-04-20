@@ -1,0 +1,29 @@
+
+<ion-card>
+  <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/card-media.png" />
+  <ion-card-header>
+    <div id="contenedor">
+      <ion-card-title>{{viaje.nombre}}</ion-card-title>
+      <ion-text color="medium">
+        <span id="boton">{{viaje.estado}}</span>
+      </ion-text>
+    </div>
+    <ion-card-subtitle>{{viaje.destino}}</ion-card-subtitle>
+  </ion-card-header>
+
+  <ion-card-content id="content-container">
+    
+    <ion-text style="display: flex; gap: 10px;"><ion-icon name="calendar"></ion-icon>{{viaje.fechaInicio}} - {{viaje.fechaFin}}</ion-text>
+    <ion-text style="display: flex; gap: 10px;"><ion-icon name="cash-outline"></ion-icon>Presupuesto: ${{viaje.presupuesto}}</ion-text>
+    
+    <div id="boton-container">
+      <ion-text>
+        <span style="font-weight: bold;">Editar</span>
+      </ion-text>
+      <ion-button size="small" class="custom-button">Ver detalles</ion-button>
+
+    </div>
+
+  </ion-card-content>
+</ion-card>
+
