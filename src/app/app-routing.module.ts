@@ -1,11 +1,18 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
-export const routes: Routes = [
+const routes: Routes = [
   {
-    path: '',
-    loadChildren: () =>
-      import('./pages/profile/profile.module').then(m => m.ProfilePageModule)
+    path: 'home',
+    loadChildren: () => import('./pages/home/home.module').then(m => m.HomePageModule)
+  },
+  {
+    path: 'explore',
+    loadChildren: () => import('./pages/explore/explore.module').then(m => m.ExplorePageModule)
+  },
+  {
+    path: 'profile',
+    loadChildren: () => import('./pages/profile/profile.module').then(m => m.ProfilePageModule)
   },
 ];
 

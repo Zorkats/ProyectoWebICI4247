@@ -25,42 +25,5 @@
 @import "@ionic/angular/css/text-transformation.css";
 @import "@ionic/angular/css/flex-utils.css";
 
-/* Custom global styles */
-ion-content {
-  --background: #fafafa;
-}
-
-.dark-theme ion-content {
-  --background: #121212;
-}
-
-h1, h2, h3, h4, h5, h6 {
-  color: #333333;
-}
-
-.dark-theme h1, 
-.dark-theme h2, 
-.dark-theme h3, 
-.dark-theme h4, 
-.dark-theme h5, 
-.dark-theme h6 {
-  color: #ffffff;
-}
-
-p {
-  color: #404040;
-}
-
-.dark-theme p {
-  color: #b0b0b0;
-}
-
-@media (max-width: 768px) {
-  .app-container {
-    flex-direction: column;
-  }
-  
-  app-sidebar {
-    height: auto;
-  }
-}
+/* @import "@ionic/angular/css/palettes/dark.always.css"; */
+/* @import "@ionic/angular/css/palettes/dark.class.css"; */
