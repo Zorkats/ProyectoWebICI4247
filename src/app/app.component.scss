@@ -1,0 +1,9 @@
+.app-container {
+    display: flex;
+    height: 100%;
+  }
+  
+  ion-router-outlet {
+    flex: 1;
+  }
+  
