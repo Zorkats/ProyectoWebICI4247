@@ -1,0 +1,39 @@
+<!-- src/app/pages/home/home.page.html -->
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Bienvenido a Sweet Trip</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-grid>
+    <ion-row>
+      <ion-col size="12" sizeMd="6">
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>Próximos viajes</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            No tienes viajes programados.
+            <ion-button fill="clear" color="primary" routerLink="/mis-viajes">
+              Planificar un viaje
+            </ion-button>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+      <ion-col size="12" sizeMd="6">
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>Destinos populares</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            Descubre los destinos más visitados.
+            <ion-button fill="clear" color="primary" routerLink="/explorar">
+              Explorar destinos
+            </ion-button>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

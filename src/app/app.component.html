@@ -1,35 +1,6 @@
-<!-- src/app/app.component.html -->
 <ion-app>
-  <ion-split-pane contentId="main-content">
-
-    <!-- 1) Menú lateral -->
-    <ion-menu contentId="main-content" side="start" type="overlay">
-      <ion-header>
-        <ion-toolbar>
-          <ion-title>
-            <ion-avatar slot="start" style="margin-right:8px;">
-              <img src="assets/img/default-avatar.png" />
-            </ion-avatar>
-            Usuario
-          </ion-title>
-        </ion-toolbar>
-      </ion-header>
-      <ion-content>
-        <ion-list>
-          <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages">
-            <ion-item [routerLink]="p.url" routerDirection="root" lines="none">
-              <ion-icon slot="start" [name]="p.icon"></ion-icon>
-              <ion-label>{{ p.title }}</ion-label>
-            </ion-item>
-          </ion-menu-toggle>
-        </ion-list>
-      </ion-content>
-    </ion-menu>
-
-    <!-- 2) Área principal donde inyecta el router -->
-    <div class="ion-page" id="main-content">
-      <ion-router-outlet main></ion-router-outlet>
-    </div>
-
-  </ion-split-pane>
+  <div class="app-container">
+    <app-sidebar></app-sidebar>
+    <ion-router-outlet></ion-router-outlet>
+  </div>
 </ion-app>

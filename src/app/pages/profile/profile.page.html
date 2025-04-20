@@ -1,92 +1,99 @@
-<!-- HEADER ------------------------------------------------------------>
-<ion-header>
-  <ion-toolbar color="primary">
-    <ion-title>Mi perfil</ion-title>
-    <ion-buttons slot="end">
-      <ion-button (click)="onEditProfile()">
-        <ion-icon slot="start" name="create-outline"></ion-icon>
-        Editar perfil
-      </ion-button>
-    </ion-buttons>
-  </ion-toolbar>
-</ion-header>
+<ion-content class="ion-padding">
+  <div class="content-container">
+    <!-- Page Title -->
+    <h1>Mi Perfil</h1>
 
-<!-- CONTENT ----------------------------------------------------------->
-<ion-content [fullscreen]="true" class="ion-padding">
+    <!-- Profile Section -->
+    <div class="profile-section">
+      <div class="profile-header">
+        <div class="avatar-container">
+          <ion-avatar class="profile-avatar">
+            <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+          </ion-avatar>
+          <ion-button fill="clear" class="camera-button">
+            <ion-icon name="camera-outline"></ion-icon>
+          </ion-button>
+        </div>
+        <div class="profile-info">
+          <h2>Usuario</h2>
+          <p>Viajero</p>
+          <ion-button fill="clear" color="primary" (click)="changeProfilePhoto()">
+            Cambiar foto de perfil
+          </ion-button>
+        </div>
+      </div>
+    </div>
 
-  <!-- === Resumen de usuario === -->
-  <ion-card class="user-summary">
-    <ion-item lines="none">
-      <ion-avatar slot="start" class="avatar-xl">
-        <img [src]="user?.avatarUrl || defaultAvatar" />
-      </ion-avatar>
-      <ion-label>
-        <h2>{{ user?.name }}</h2>
-        <p>{{ user?.email }}</p>
-      </ion-label>
-    </ion-item>
-
-    <ion-card-content>
-      <ion-button shape="round" size="small" (click)="onEditProfile()">
-        Editar
-      </ion-button>
-      <ion-button
-        shape="round"
-        size="small"
-        fill="outline"
-        (click)="goToChangePassword()"
-      >
-        Cambiar contraseña
-      </ion-button>
-    </ion-card-content>
-  </ion-card>
-
-  <!-- === Estadísticas === -->
-  <h2 class="section-title">Estadísticas</h2>
-
-  <ion-grid fixed>
-    <ion-row>
-      <ion-col size="6" sizeMd="3" *ngFor="let stat of stats">
-        <ion-card class="stat-card">
-          <ion-icon [name]="stat.icon" class="stat-icon"></ion-icon>
-          <h3>{{ stat.value }}</h3>
-          <p>{{ stat.label }}</p>
+    <!-- Statistics Section -->
+    <div class="section">
+      <h2 class="section-title">Estadísticas</h2>
+      <div class="stats-container">
+        <ion-card>
+          <ion-card-content>
+            <p class="stats-label">Viajes completados</p>
+            <p class="stats-value">12</p>
+          </ion-card-content>
         </ion-card>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+        <ion-card>
+          <ion-card-content>
+            <p class="stats-label">Países visitados</p>
+            <p class="stats-value">8</p>
+          </ion-card-content>
+        </ion-card>
+        <ion-card>
+          <ion-card-content>
+            <p class="stats-label">Días viajando</p>
+            <p class="stats-value">42</p>
+          </ion-card-content>
+        </ion-card>
+      </div>
+    </div>
 
-  <!-- === Seguridad === -->
-  <h2 class="section-title">Seguridad</h2>
-
-  <ion-card>
-    <ion-list>
-      <ion-item lines="full">
-        <ion-icon slot="start" name="key-outline"></ion-icon>
-        <ion-label>
-          Contraseña<br />
-          <small>Último cambio: {{ security.lastPwdChange | date }}</small>
-        </ion-label>
-        <ion-button
-          slot="end"
-          size="small"
-          fill="outline"
-          (click)="goToChangePassword()"
+    <!-- Password Change Section -->
+    <div class="section">
+      <h2 class="section-title">Cambiar Contraseña</h2>
+      <form [formGroup]="passwordForm" (ngSubmit)="changePassword()">
+        <ion-item>
+          <ion-label position="stacked">Contraseña actual</ion-label>
+          <ion-input type="password" formControlName="currentPassword"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="stacked">Nueva Contraseña</ion-label>
+          <ion-input type="password" formControlName="newPassword"></ion-input>
+        </ion-item>
+        <ion-button 
+          expand="block" 
+          color="dark" 
+          type="submit" 
+          [disabled]="!passwordForm.valid"
+          class="password-button"
         >
-          Cambiar
+          Cambiar Contraseña
         </ion-button>
-      </ion-item>
+      </form>
+    </div>
 
-      <ion-item *ngIf="security">
-        <ion-icon slot="start" name="shield-checkmark-outline"></ion-icon>
-        <ion-label>Autenticación 2 FA</ion-label>
-        <ion-toggle
-          slot="end"
-          [(ngModel)]="security.twoFA"
-          (ionChange)="toggle2FA()"
-        ></ion-toggle>
-      </ion-item>
-    </ion-list>
-  </ion-card>
-
+    <!-- Account Settings Section -->
+    <div class="section">
+      <h2 class="section-title">Configuración de la cuenta</h2>
+      <ion-card>
+        <ion-card-content>
+          <ion-item lines="full">
+            <ion-label>
+              <h3>Notificaciones por email</h3>
+              <p>Recibe actualizaciones sobre tus viajes</p>
+            </ion-label>
+            <ion-toggle [(ngModel)]="emailNotifications" slot="end" color="primary"></ion-toggle>
+          </ion-item>
+          <ion-item lines="none">
+            <ion-label>
+              <h3>Modo oscuro</h3>
+              <p>Cambia la apariencia de la aplicación</p>
+            </ion-label>
+            <ion-toggle [(ngModel)]="darkMode" slot="end" color="primary"></ion-toggle>
+          </ion-item>
+        </ion-card-content>
+      </ion-card>
+    </div>
+  </div>
 </ion-content>

@@ -1,18 +1,20 @@
-// profile.module.ts
+// src/app/pages/profile/profile.module.ts
 import { NgModule }             from '@angular/core';
 import { CommonModule }         from '@angular/common';
-import { FormsModule }          from '@angular/forms';
+import { FormsModule, ReactiveFormsModule }          from '@angular/forms';
 import { IonicModule }          from '@ionic/angular';
-import { ProfilePage }          from './profile.page';
 import { ProfilePageRoutingModule } from './profile-routing.module';
+import { ProfilePage }          from './profile.page';
 
 @NgModule({
+  declarations: [],
   imports: [
     CommonModule,
     FormsModule,
+    ReactiveFormsModule,
     IonicModule,
     ProfilePageRoutingModule,
-    ProfilePage        
+    ProfilePage
   ]
 })
 export class ProfilePageModule {}
