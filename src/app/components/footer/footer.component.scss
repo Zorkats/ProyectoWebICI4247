@@ -2,47 +2,51 @@
 .app-footer {
   ion-toolbar {
     --background: var(--ion-color-light);
-    padding: 20px 0 10px;
+    padding: 15px 0;
+    --border-width: 0;
   }
 
-  .footer-logo {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-weight: 600;
-    font-size: 1.2rem;
-    color: var(--ion-color-primary);
-    margin-bottom: 15px;
+  .copyright-text {
+    color: var(--ion-color-medium);
+    font-size: 0.9rem;
+    text-align: left;
+  }
 
-    ion-icon {
-      font-size: 1.4rem;
-      color: var(--ion-color-primary);
+  .footer-links {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+
+    .footer-link {
+      --color: var(--ion-color-medium);
+      --color-activated: var(--ion-color-primary);
+      --color-hover: var(--ion-color-primary);
+      font-size: 0.9rem;
+      font-weight: normal;
+      text-transform: none;
+      --padding-start: 12px;
+      --padding-end: 12px;
+      margin: 0;
+      height: 30px;
     }
   }
+}
 
-  h4 {
-    color: var(--ion-color-dark);
-    font-size: 1rem;
-    font-weight: 600;
-    margin-bottom: 10px;
-  }
+// Para pantallas pequeñas
+@media (max-width: 576px) {
+  .app-footer {
+    .copyright-text {
+      text-align: center;
+    }
 
-  ion-list {
-    background: transparent;
-    padding: 0;
+    .footer-links {
+      justify-content: center;
+      margin-top: 10px;
+    }
 
-    ion-item {
-      --color: var(--ion-color-dark);
-      --background: transparent;
-      --background-hover: rgba(0, 0, 0, 0.05);
-      --padding-start: 0;
-      --inner-padding-end: 0;
-      --min-height: 30px;
-      font-size: 0.9rem;
-
-      &:hover {
-        --color: var(--ion-color-primary);
-      }
+    ion-col {
+      flex: 0 0 100%;
+      max-width: 100%;
     }
   }
 }
