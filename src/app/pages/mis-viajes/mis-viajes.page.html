@@ -1,0 +1,34 @@
+<app-side-bar></app-side-bar>
+
+<div class="ion-page" id="main-content">
+  <ion-header class="ion-no-border">
+    <ion-toolbar>
+      <div class="toolbar-container">
+        <ion-row class="ion-justify-content-between ion-align-items-center">
+          <ion-buttons>
+            <ion-menu-button menu="sideMenu"></ion-menu-button>
+          </ion-buttons>
+        
+          <ion-title>Mis Viajes</ion-title>
+          <ion-button size="default" class="custom-button"><span>+</span> Nuevo Viaje</ion-button>
+        </ion-row>
+      </div>
+    </ion-toolbar>
+  </ion-header>
+
+
+  <ion-content class="ion-padding">
+    <ion-grid [fixed]="true">
+      <ion-row>
+          @for(viaje of Viajes; track $index){
+            <ion-col size="12" size-md="6" size-lg="4">
+            <app-tarjeta-viaje [viaje]="viaje"></app-tarjeta-viaje>
+            </ion-col>
+          }
+      </ion-row>
+    </ion-grid>
+    
+  </ion-content>
+  
+  
+</div>

@@ -1,0 +1,30 @@
+.toolbar-container { // Ajusta este valor según necesites
+
+    width: 100%;
+}
+
+ion-button {
+    --border-radius: 8px;
+    --background: #1A1B1C;
+    width: 200px;
+    height: 50px;
+    font-size: 16px;
+
+}
+
+ion-menu-button {
+    font-size: 30px;    
+}
+
+ion-title {
+    font-size: 25px;
+    
+}
+
+span {
+    color: #B5B5B5;
+    padding-right: 10px;
+}
+
+
+
