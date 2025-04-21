@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./side-bar.component.scss'],
   standalone: false
 })
-export class SideBarComponent  implements OnInit {
+export class SideBarComponent implements OnInit {
 
   constructor() { }
 
