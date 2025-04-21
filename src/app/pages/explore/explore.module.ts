@@ -7,15 +7,17 @@ import { IonicModule } from '@ionic/angular';
 import { ExplorePageRoutingModule } from './explore-routing.module';
 
 import { ExplorePage } from './explore.page';
-import { SideBarComponent} from "../../components/side-bar/side-bar.component";
+import { SharedModule } from '../../components/side-bar/side-bar-shared.module'
+
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    ExplorePageRoutingModule
+    ExplorePageRoutingModule,
+    SharedModule,
   ],
-  declarations: [ExplorePage,SideBarComponent]
+  declarations: [ExplorePage]
 })
 export class ExplorePageModule {}

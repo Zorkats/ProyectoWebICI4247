@@ -1,7 +1,10 @@
+<app-side-bar overlayId="explore-overlay"></app-side-bar>
+
+<div class="ion-page" id="main-content">
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
+      <app-menu-button (toggleMenu)="sidebar.toggleSidebar()"></app-menu-button>
     </ion-buttons>
     <ion-title>Mi Perfil</ion-title>
   </ion-toolbar>
@@ -58,24 +61,15 @@
     <!-- Password Change Section -->
     <div class="section">
       <h2 class="section-title">Cambiar Contraseña</h2>
-      <form [formGroup]="passwordForm" (ngSubmit)="changePassword()">
+      <form>
         <ion-item>
           <ion-label position="stacked">Contraseña actual</ion-label>
-          <ion-input type="password" formControlName="currentPassword"></ion-input>
+          <ion-input type="password"></ion-input>
         </ion-item>
         <ion-item>
           <ion-label position="stacked">Nueva Contraseña</ion-label>
-          <ion-input type="password" formControlName="newPassword"></ion-input>
+          <ion-input type="password"></ion-input>
         </ion-item>
-        <ion-button
-          expand="block"
-          color="dark"
-          type="submit"
-          [disabled]="!passwordForm.valid"
-          class="password-button"
-        >
-          Cambiar Contraseña
-        </ion-button>
       </form>
     </div>
     <!-- Account Settings Section -->
@@ -102,3 +96,4 @@
     </div>
   </div>
 </ion-content>
+</div>

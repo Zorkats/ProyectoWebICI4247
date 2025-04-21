@@ -1,12 +1,11 @@
 
-<app-side-bar></app-side-bar>
+<app-side-bar overlayId="explore-overlay"></app-side-bar>
 
-<div class="ion-page" id="main-content">
 <ion-header class="custom-explore-header" [translucent]="false">
   <ion-toolbar>
 
-    <ion-buttons slot="start">
-      <ion-menu-button menu="sideMenu"></ion-menu-button>
+   <ion-buttons slot="start">
+     <app-menu-button (toggleMenu)="sidebar.toggleSidebar()"></app-menu-button>
     </ion-buttons>
     <ion-title>Explorar</ion-title>
 
@@ -245,4 +244,3 @@
   </section>
 
 </ion-content>
-</div>

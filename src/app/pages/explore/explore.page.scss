@@ -1,48 +1,7 @@
 /* explore.page.scss */
 
-:host {
-  --ion-color-primary: #0ea5e9;
-  --ion-color-primary-rgb: 14,165,233;
-  --ion-color-primary-contrast: #ffffff;
-  --ion-color-primary-shade: #0c91cd;
-  --ion-color-primary-tint: #26aef7;
-
-  --ion-color-secondary: #0284c7;
-  --ion-color-secondary-rgb: 2,132,199;
-  --ion-color-secondary-contrast: #ffffff;
-  --ion-color-secondary-shade: #0274af;
-  --ion-color-secondary-tint: #1b90cd;
-
-  --ion-color-tertiary: #0369a1;
-  --ion-color-tertiary-rgb: 3,105,161;
-  --ion-color-tertiary-contrast: #ffffff;
-  --ion-color-tertiary-shade: #035d8e;
-  --ion-color-tertiary-tint: #1c79aa;
-
-  --ion-color-step-50: #fcfcfc;
-  --ion-color-step-100: #f3f3f3;
-  --ion-color-step-150: #e9e9e9;
-  --ion-color-step-200: #dfdfdf;
-  --ion-color-step-400: #9e9e9e;
-  --ion-color-step-500: #8a8a8a;
-  --ion-color-step-600: #707070;
-  --ion-color-step-800: #3b3b3b;
-
-  --ion-color-medium: var(--ion-color-step-600);
-  --ion-color-medium-rgb: 112,112,112;
-  --ion-color-medium-contrast: #ffffff;
-  --ion-color-medium-shade: #636363;
-  --ion-color-medium-tint: #7e7e7e;
-
-  --ion-color-dark: var(--ion-color-step-800);
-  --ion-color-dark-rgb: 59,59,59;
-  --ion-color-dark-contrast: #ffffff;
-
-  --ion-background-color: #ffffff;
-  --ion-background-color-rgb: 255,255,255;
-
-  --ion-color-danger: #eb445a;
-  --ion-color-danger-rgb: 235,68,90;
+.icono-menu {
+  color: #000000;
 }
 
 /* Estilos específicos para el Header de Explorar */
@@ -58,8 +17,6 @@
   }
 
   ion-toolbar {
-    --background: var(--ion-background-color);
-    --color: var(--ion-text-color);
     --border-width: 0px;
     --min-height: 56px;
     padding: 0 8px;
