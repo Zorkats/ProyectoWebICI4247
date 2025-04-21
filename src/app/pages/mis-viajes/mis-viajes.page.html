@@ -5,11 +5,12 @@
       <ion-buttons slot="start">
         <app-menu-button (toggleMenu)="sidebar.toggleSidebar()"></app-menu-button>
       </ion-buttons>
-
+      
           <ion-title>Mis Viajes</ion-title>
-          <ion-buttons slot="end">
-            <ion-button size="default" class="custom-button"><span>+</span> Nuevo Viaje</ion-button>
-          </ion-buttons>
+          <ion-button size="default" class="custom-button" routerLink="/crear-viaje"><span>+</span> Nuevo Viaje</ion-button>
+      
+        </ion-row>
+      </div>
     </ion-toolbar>
   </ion-header>
 

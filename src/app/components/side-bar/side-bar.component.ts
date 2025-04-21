@@ -10,6 +10,7 @@ import { filter } from 'rxjs/operators';
   standalone: false
 })
 export class SideBarComponent implements OnInit {
+
   isOpen = false;
 
   @Input() overlayId = 'sidebar-overlay';
