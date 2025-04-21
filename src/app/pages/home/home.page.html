@@ -1,20 +1,63 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Blank
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
+<app-header></app-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
+  <!-- Hero Section -->
+  <div class="hero-section">
+    <ion-grid fixed>
+      <ion-row class="ion-align-items-center">
+        <ion-col size="12" size-md="6" class="hero-text">
+          <h1>Tu viaje perfecto,<br>a tu medida</h1>
+          <p>Organiza y genera itinerarios de manera automática</p>
+          <ion-button routerLink="/explore" shape="round" color="dark" class="cta-button">Comienza ahora</ion-button>
+        </ion-col>
+        <ion-col size="12" size-md="6" class="ion-hide-md-down ion-text-end">
+          <div class="hero-image-container">
+            <img src="../../../assets/images/raw.png" alt="Ilustración de viaje" class="hero-image"/>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
   </div>
+
+  <!-- Steps Section -->
+  <div class="steps-section">
+    <h2 class="ion-text-center">Comienza con los siguientes simples pasos</h2>
+    <ion-grid fixed>
+      <ion-row class="ion-justify-content-center">
+        <ion-col size="12" size-md="4">
+          <div class="step-item">
+            <div class="step-number">1</div>
+            <img src="../../../assets/images/1.png" alt="Crea tu viaje" class="step-icon"/>
+            <h3 class="texto-steps">Crea tu viaje</h3>
+          </div>
+        </ion-col>
+        <ion-col size="12" size-md="4">
+          <div class="step-item">
+            <div class="step-number">2</div>
+            <img src="../../../assets/images/2.png" alt="Ingresa detalles" class="step-icon"/>
+            <h3>Ingresa los detalles<br>de tu viaje</h3>
+            <p>(destino, fecha, presupuesto)</p>
+          </div>
+        </ion-col>
+        <ion-col size="12" size-md="4">
+          <div class="step-item">
+            <div class="step-number">3</div>
+            <img src="../../../assets/images/3.png" alt="Genera itinerario" class="step-icon"/>
+            <h3>¡Genera tu itinerario!</h3>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+
+  <!-- CTA Section -->
+  <div class="cta-section">
+    <div class="cta-content ion-text-center">
+      <h3>¿QUÉ ESPERAS?</h3>
+      <p>Tu viaje comienza aquí</p>
+      <ion-button shape="round" color="dark" size="large" class="cta-button-main">¡Empieza AHORA!</ion-button>
+    </div>
+  </div>
+
+  <app-footer></app-footer>
 </ion-content>

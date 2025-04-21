@@ -7,9 +7,10 @@ import { IonicModule } from '@ionic/angular';
 import { MisViajesPageRoutingModule } from './mis-viajes-routing.module';
 
 import { MisViajesPage } from './mis-viajes.page';
-import { SideBarComponent } from '../../components/side-bar/side-bar.component';
 import { TarjetaViajeComponent } from 'src/app/components/tarjeta-viaje/tarjeta-viaje.component';
-import { SharedModule } from 'src/app/components/side-bar/side-bar-shared.module';
+
+import { SharedModule } from '../../components/side-bar/side-bar-shared.module'
+
 
 @NgModule({
   imports: [
@@ -18,7 +19,6 @@ import { SharedModule } from 'src/app/components/side-bar/side-bar-shared.module
     IonicModule,
     MisViajesPageRoutingModule,
     SharedModule
-    
   ],
   declarations: [MisViajesPage, TarjetaViajeComponent]
 })

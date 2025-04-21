@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import { Viaje } from 'src/app/models/viaje.model';
+import {MenuController} from "@ionic/angular";
+import {SideBarComponent} from "../../components/side-bar/side-bar.component";
 
 @Component({
   selector: 'app-mis-viajes',
@@ -8,9 +10,11 @@ import { Viaje } from 'src/app/models/viaje.model';
   standalone: false
 })
 export class MisViajesPage implements OnInit {
+  @ViewChild(SideBarComponent) sidebar!: SideBarComponent;
+
 
   Viajes: Viaje[] = [];
-  constructor() {
+  constructor(private menuCtrl: MenuController) {
     this.Viajes = [
       {
         id: 1,
@@ -76,10 +80,13 @@ export class MisViajesPage implements OnInit {
         estado: 'Pendiente'
       }
     ];
-   
+
   }
 
-  ngOnInit() {
+  ngOnInit() {}
+
+  async openMenu() {
+    await this.menuCtrl.open('sideMenu');
   }
 
 

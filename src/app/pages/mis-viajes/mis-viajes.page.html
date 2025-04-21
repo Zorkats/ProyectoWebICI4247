@@ -1,16 +1,14 @@
-<app-side-bar></app-side-bar>
+<app-side-bar overlayId="explore-overlay"></app-side-bar>
 
-<div class="ion-page" id="main-content">
-  <ion-header class="ion-no-border">
+<ion-header class="ion-no-border">
     <ion-toolbar>
-      <div class="toolbar-container">
-        <ion-row class="ion-justify-content-between ion-align-items-center">
-          <ion-buttons>
-            <ion-menu-button menu="sideMenu"></ion-menu-button>
-          </ion-buttons>
-        
+      <ion-buttons slot="start">
+        <app-menu-button (toggleMenu)="sidebar.toggleSidebar()"></app-menu-button>
+      </ion-buttons>
+      
           <ion-title>Mis Viajes</ion-title>
           <ion-button size="default" class="custom-button" routerLink="/crear-viaje"><span>+</span> Nuevo Viaje</ion-button>
+      
         </ion-row>
       </div>
     </ion-toolbar>
@@ -27,8 +25,5 @@
           }
       </ion-row>
     </ion-grid>
-    
+
   </ion-content>
-  
-  
-</div>
