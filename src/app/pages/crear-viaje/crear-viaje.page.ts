@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
+import {SideBarComponent} from "../../components/side-bar/side-bar.component";
 
 @Component({
   selector: 'app-crear-viaje',
@@ -7,6 +8,7 @@ import { Component, OnInit } from '@angular/core';
   standalone:false
 })
 export class CrearViajePage implements OnInit {
+  @ViewChild(SideBarComponent) sidebar!: SideBarComponent;
 
   constructor() { }
 

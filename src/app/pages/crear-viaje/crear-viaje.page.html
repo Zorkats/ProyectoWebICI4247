@@ -1,21 +1,17 @@
-<app-side-bar></app-side-bar>
+<app-side-bar overlayId="explore-overlay"></app-side-bar>
 
 <div class="ion-page" id="main-content">
     <ion-header class="ion-no-border">
       <ion-toolbar>
-        <div class="toolbar-container">
-          <ion-row class="ion-justify-content-between ion-align-items-center">
-            <ion-buttons>
-              <ion-menu-button menu="sideMenu"></ion-menu-button>
+            <ion-buttons slot="start">
+              <app-menu-button (toggleMenu)="sidebar.toggleSidebar()"></app-menu-button>
             </ion-buttons>
-          
+
             <ion-title>Crea nuevo viaje</ion-title>
-          </ion-row>
-        </div>
       </ion-toolbar>
     </ion-header>
-  
-  
+
+
     <ion-content class="ion-padding">
 
         <ion-grid [fixed]="true">
@@ -23,40 +19,40 @@
                 <ion-button id="custom-button" style="padding-bottom: 10px; --background: black" routerLink="/mis-viajes">
                     <ion-icon name="arrow-back-outline"></ion-icon> Volver a Mis Viajes
                 </ion-button>
-                
+
             </ion-row>
             <ion-row>
                 <ion-text style="font-size: 20px;">Informacion Básica</ion-text>
-               
+
             </ion-row>
             <ion-row>
                 <ion-text style="color: rgb(105, 105, 105); font-size: 15px;">Proporciona los detalles principales para tu viaje</ion-text>
             </ion-row>
 
-            
-            <ion-row style="padding-top: 20px;"> 
 
-                <ion-col size="12" size-sm="6"> 
+            <ion-row style="padding-top: 20px;">
+
+                <ion-col size="12" size-sm="6">
                     <ion-text style="font-size: 17px; padding-left: 10px;">Nombre del viaje</ion-text>
-                    <ion-input shape="round" fill="outline" placeholder="Aventura por Calama"></ion-input> 
+                    <ion-input shape="round" fill="outline" placeholder="Aventura por Calama"></ion-input>
                 </ion-col>
-          
-                <ion-col size="12" size-sm="6"> 
+
+                <ion-col size="12" size-sm="6">
                     <ion-text style="font-size: 17px; padding-left: 10px;">Destino</ion-text>
                     <ion-input shape="round" fill="outline" placeholder="Patagonia, Chile"></ion-input>
                 </ion-col>
-          
+
             </ion-row>
 
             <ion-row style="padding-top: 20px;">
-                <ion-col size="12" size-sm="6"> 
+                <ion-col size="12" size-sm="6">
                     <ion-text style="font-size: 17px; padding-left: 10px;">Fecha de Inicio</ion-text>
-                    <ion-input shape="round" fill="outline" placeholder="dd/mm/aa"></ion-input> 
+                    <ion-input shape="round" fill="outline" placeholder="dd/mm/aa"></ion-input>
                 </ion-col>
 
-                <ion-col size="12" size-sm="6"> 
+                <ion-col size="12" size-sm="6">
                     <ion-text style="font-size: 17px; padding-left: 10px;">Fecha de Fin</ion-text>
-                    <ion-input shape="round" fill="outline" placeholder="dd/mm/aa"></ion-input> 
+                    <ion-input shape="round" fill="outline" placeholder="dd/mm/aa"></ion-input>
                 </ion-col>
 
             </ion-row>
@@ -66,17 +62,17 @@
             </ion-row>
 
             <ion-row style="padding-top: 20px;">
-                <ion-col size="auto"> 
+                <ion-col size="auto">
                   <ion-text style="font-size: 20px;">Presupuesto</ion-text>
                 </ion-col>
-              
-                <ion-col class="ion-text-end"> 
+
+                <ion-col class="ion-text-end">
                     <ion-text style="font-size: 20px;"> $1.200.000</ion-text>
                 </ion-col>
               </ion-row>
-              
+
               <ion-row>
-                <ion-col size="12"> 
+                <ion-col size="12">
                   <ion-range aria-label="Custom range" [value]="50">
                     <ion-text slot="start" style="font-size: 15px;">$0</ion-text>
                     <ion-text slot="end" style="font-size: 15px;">$30.000.000</ion-text>
@@ -114,9 +110,9 @@
                     </ion-checkbox>
 
                 </ion-col>
-                
+
               </ion-row>
-                
+
               <ion-row style="padding-top: 40px;">
                 <ion-text style="font-size: 20px;">Intereses</ion-text>
               </ion-row>
@@ -154,7 +150,7 @@
                     </ion-checkbox>
 
                 </ion-col>
-                
+
               </ion-row>
 
 
@@ -169,9 +165,9 @@
                 </ion-col>
               </ion-row>
 
-            
+
         </ion-grid>
-      
+
     </ion-content>
-    
+
 </div>
