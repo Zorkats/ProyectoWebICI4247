@@ -11,6 +11,13 @@ export class CrearViajePage implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    const hoy = new Date();
+    this.fechaInicio = hoy.toISOString().split('T')[0];
   }
+
+  fechaInicio:string = new Date().toISOString();
+
+  fechaFin:string | null = null;
+
 
 }

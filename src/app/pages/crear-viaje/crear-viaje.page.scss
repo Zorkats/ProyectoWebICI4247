@@ -14,7 +14,65 @@ ion-range {
     --pin-color: #fff;
 }
 
-.text-checkbox {
-    font-size: 17px;
-    font-weight: 400;
+ion-content::part(scroll) {
+    scrollbar-gutter: stable;
+    overflow-y: scroll;
 }
+
+.custom-item {
+    --background: #f5f6fa; /* color de fondo suave */
+    --border-radius: 12px;
+    --padding-start: 12px;
+    --padding-end: 12px;
+    --highlight-height: 0; /* desactiva línea inferior al enfocar */
+    margin-bottom: 12px;
+}
+  
+.custom-input {
+    --color: #000; /* color del texto del input */
+    --placeholder-color: #888;
+    font-weight: 500;
+}
+
+
+.form-section-card {
+    margin-bottom: 20px; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05); 
+    border-radius: 12px; 
+    --background: var(--ion-color-tertiary-contrast, #fff); 
+}
+
+.title-section {
+    font-size: 1.3rem; 
+    font-weight: 600; 
+    color: var(--ion-color-step-800, #333); 
+}
+  
+.description-section {
+    color: var(--ion-color-step-500, #888); 
+    font-size: 0.9rem;
+    margin-top: -5px; // Ajuste fino del espacio con el título
+    margin-bottom: 10px;
+}
+
+
+.custom-input {
+    --background: var(--ion-color-light-tint, #f4f5f8); 
+    --border-radius: 8px; 
+    --padding-start: 10px; 
+    --inner-padding-end: 10px;
+    margin-bottom: 16px; 
+
+    ion-icon[slot="start"] {
+        // Añade espacio entre el icono y el texto del input (ajusta el valor según necesites)
+        margin-inline-end: 8px;
+    }
+    
+
+}
+
+.grid-container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
