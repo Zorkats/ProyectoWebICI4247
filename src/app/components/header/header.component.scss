@@ -1,0 +1,85 @@
+//Header
+
+.main-header {
+
+  ion-toolbar {
+    --background: #ffffff;
+    --border-width: 0px;
+    --min-height: 65px;
+    padding: 0 180px; // Margen horizontal
+  }
+
+  .header-logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+    font-size: 1.3rem;
+    color: #121212;
+    padding: 0;
+
+    ion-icon {
+      font-size: 1.6rem;
+      // color: #3B82F6; // O usa --ion-color-primary
+    }
+  }
+
+  .header-right-buttons {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .nav-button {
+    --color: #4b5563;
+    --padding-start: 8px;
+    --padding-end: 8px;
+    font-weight: 500;
+    font-size: 0.9rem;
+    text-transform: none;
+  }
+
+  .button-separator {
+    width: 1px;
+    height: 20px;
+    background-color: #e5e7eb;
+    margin: 0 8px;
+  }
+
+  .login-button {
+    --border-color: #d1d5db;
+    --border-width: 1px;
+    --border-radius: 6px;
+    --padding-start: 16px;
+    --padding-end: 16px;
+    --background: #ffffff;
+    --background-hover: #f9fafb;
+    --color: #1f2937;
+    font-weight: 500;
+    font-size: 0.9rem;
+    height: 38px;
+    text-transform: none;
+    box-shadow: none;
+    margin: 0;
+  }
+
+  .register-button {
+    --background: #1f2937;
+    --background-hover: #374151;
+    --color: #ffffff;
+    --border-radius: 6px;
+    --padding-start: 0;
+    --padding-end: 0;
+    --box-shadow: none;
+    font-weight: 500;
+    font-size: 0.9rem;
+    height: 38px;
+    text-transform: none;
+    margin: 0;
+
+    span.ion-padding-horizontal {
+      padding-left: 16px;
+      padding-right: 16px;
+    }
+  }
+}

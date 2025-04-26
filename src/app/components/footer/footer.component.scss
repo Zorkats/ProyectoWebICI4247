@@ -1,0 +1,52 @@
+// Footer
+.app-footer {
+  ion-toolbar {
+    --background: var(--ion-color-light);
+    padding: 15px 0;
+    --border-width: 0;
+  }
+
+  .copyright-text {
+    color: var(--ion-color-medium);
+    font-size: 0.9rem;
+    text-align: left;
+  }
+
+  .footer-links {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+
+    .footer-link {
+      --color: var(--ion-color-medium);
+      --color-activated: var(--ion-color-primary);
+      --color-hover: var(--ion-color-primary);
+      font-size: 0.9rem;
+      font-weight: normal;
+      text-transform: none;
+      --padding-start: 12px;
+      --padding-end: 12px;
+      margin: 0;
+      height: 30px;
+    }
+  }
+}
+
+// Para pantallas pequeñas
+@media (max-width: 576px) {
+  .app-footer {
+    .copyright-text {
+      text-align: center;
+    }
+
+    .footer-links {
+      justify-content: center;
+      margin-top: 10px;
+    }
+
+    ion-col {
+      flex: 0 0 100%;
+      max-width: 100%;
+    }
+  }
+}
