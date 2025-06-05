@@ -4,6 +4,8 @@ const app = express();
 
 const PORT = process.env.PORT || 3000;
 
+app.use(express.json()); // Para parsear JSON
+
 app.get('/', (req, res) => {
   res.send('¡Hola Mundo con Express!');
 });
