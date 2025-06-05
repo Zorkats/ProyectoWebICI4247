@@ -1,40 +1,26 @@
 # Specifies intentionally untracked files to ignore when using Git
 # http://git-scm.com/docs/gitignore
 
+# Patrones globales para archivos temporales, de sistema y logs
 *~
 *.sw[mnpcod]
 .tmp
 *.tmp
 *.tmp.*
 UserInterfaceState.xcuserstate
-$RECYCLE.BIN/
-
 *.log
-log.txt
-
-
-/.sourcemaps
-/.versions
-/coverage
-
-# Ionic
-/.ionic
-/www
-/platforms
-/plugins
-
-# Compiled output
-/dist
-/tmp
-/out-tsc
-/bazel-out
-
-# Node
-/node_modules
+# log.txt
 npm-debug.log
 yarn-error.log
+.DS_Store
+Thumbs.db
+.sass-cache/
+testem.log
 
-# IDEs and editors
+# Archivos y carpetas específicas de la raíz del repositorio
+$RECYCLE.BIN/
+
+# Configuraciones de IDE y editores (mantenidas en la raíz)
 .idea/
 .project
 .classpath
@@ -44,7 +30,7 @@ yarn-error.log
 *.sublime-project
 *.sublime-workspace
 
-# Visual Studio Code
+# Visual Studio Code (mantenido en la raíz)
 .vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json
@@ -52,19 +38,36 @@ yarn-error.log
 !.vscode/extensions.json
 .history/*
 
+# Archivos y carpetas del proyecto movidas a la subcarpeta 'front/'
+# (Originalmente comenzaban con '/' o eran específicas del proyecto)
 
-# Miscellaneous
-/.angular
-/.angular/cache
-.sass-cache/
-/.nx
-/.nx/cache
-/connect.lock
-/coverage
-/libpeerconnection.log
-testem.log
-/typings
+# Ionic (ahora dentro de 'front/')
+front/.ionic/
+front/www/
+front/platforms/
+front/plugins/
 
-# System files
-.DS_Store
-Thumbs.db
+# Salida de compilación (ahora dentro de 'front/')
+front/dist/
+front/tmp/
+front/out-tsc/
+front/bazel-out/
+
+# Node (ahora dentro de 'front/')
+front/node_modules/
+
+# Misceláneos (ahora dentro de 'front/')
+front/.angular/
+# front/.angular/cache/ # Cubierto por front/.angular/
+front/.sourcemaps/
+front/.versions/
+front/coverage/
+front/.nx/
+# front/.nx/cache/ # Cubierto por front/.nx/
+front/connect.lock
+front/libpeerconnection.log
+front/typings/
+# Si 'log.txt' era un archivo específico en la raíz de tu proyecto anterior:
+# front/log.txt
+
+backend/node_modules
