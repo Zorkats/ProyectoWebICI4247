@@ -71,3 +71,4 @@ front/typings/
 # front/log.txt
 
 backend/node_modules
+backend/.env

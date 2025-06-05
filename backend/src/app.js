@@ -1,20 +1,15 @@
-const express = require('express');
+import express from 'express';
 
 const app = express();
 
-const PORT = process.env.PORT || 3000;
-
-app.use(express.json()); // Para parsear JSON
+app.use(express.json());
 
 app.get('/', (req, res) => {
-  res.send('¡Hola Mundo con Express!');
+  res.status(200).json({ status: 'ok', message: '¡API de Sweet Trip funcionando!' });
 });
 
 app.get('/api/saludo', (req, res) => {
   res.json({ mensaje: '¡Hola desde la API!' });
 });
 
-app.listen(PORT, () => {
-  console.log(`Servidor Express escuchando en el puerto ${PORT}`);
-  console.log(`Visita http://localhost:${PORT} en tu navegador`);
-});
+export default app;
