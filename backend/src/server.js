@@ -1,23 +1,26 @@
 import 'dotenv/config';
+import express from 'express';
+import db from './models/index.js'; // Importa la configuración de la BD y los modelos
 
-import app from './app.js';
+const app = express();
+const PORT = process.env.PORT || 3000;
 
-import { pool, testConnection } from './config/db.js';
-
-const PORT = process.env.PORT || 3001;
-
+// Función principal para iniciar el servidor
 async function startServer() {
   try {
-    await testConnection();
+    await db.sequelize.authenticate();
+    console.log('✅ Conexión con la base de datos establecida exitosamente.');
+
+    // Opcional: cambiar a tablas de sequelize (tablas actuales son de schema.sql)
+    // await db.sequelize.sync(); //  { force: true } borraría las tablas existentes.
 
     app.listen(PORT, () => {
       console.log(`🚀 Servidor corriendo en el puerto ${PORT}`);
-      console.log(`   Visita http://localhost:${PORT}`);
+      console.log(`🗓️  Hoy es ${new Date().toLocaleDateString('es-CL', { timeZone: 'America/Santiago' })}`);
     });
 
   } catch (error) {
-    console.error('❌ Error fatal: no se pudo iniciar el servidor.', error);
-    if (pool) await pool.end();
+    console.error('❌ Error al iniciar el servidor:', error);
     process.exit(1);
   }
 }

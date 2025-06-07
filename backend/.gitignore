@@ -1,0 +1,22 @@
+# Dependencias
+# No queremos subir gigabytes de librerías que se pueden instalar con `npm install`
+node_modules/
+
+# Archivos de entorno (¡MUY IMPORTANTE!)
+# Contiene contraseñas y secretos
+.env
+
+# Logs y archivos de debug
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Carpetas del editor de código
+.vscode/
+.idea/
+
+# Archivos del sistema operativo
+.DS_Store
+Thumbs.db
