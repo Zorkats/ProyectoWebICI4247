@@ -1,33 +1,23 @@
-import mysql from 'mysql2/promise';
+import { Sequelize } from 'sequelize';
 
-const dbConfig = {
-  host: process.env.DB_HOST || 'localhost',
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME,
-  port: process.env.DB_PORT || 3306,
-  waitForConnections: true,
-  connectionLimit: 10,
-  queueLimit: 0
-};
-
-let pool;
-
-try {
-  pool = mysql.createPool(dbConfig);
-} catch (error) {
-  console.error('❌ Error fatal al crear el pool de conexiones de MySQL:', error);
-  process.exit(1);
-}
+const sequelize = new Sequelize(
+  process.env.DB_NAME,
+  process.env.DB_USER,
+  process.env.DB_PASSWORD,
+  {
+    host: process.env.DB_HOST || 'localhost',
+    dialect: 'mysql',
+    logging: false
+  }
+);
 
 export async function testConnection() {
   try {
-    const connection = await pool.getConnection();
-    console.log('✅ Conexión a MySQL establecida exitosamente!');
-    connection.release();
+    await sequelize.authenticate();
+    console.log('✅ Conexión con Sequelize establecida exitosamente!');
   } catch (error) {
-    console.error('❌ No se pudo conectar a la base de datos de MySQL:', error.message);
+    console.error('❌ No se pudo conectar a la base de datos con Sequelize:', error);
   }
 }
 
-export { pool };
+export default sequelize;

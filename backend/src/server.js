@@ -1,23 +1,34 @@
 import 'dotenv/config';
+import express from 'express';
+import db from './models/index.js';
 
-import app from './app.js';
+const app = express();
+const PORT = process.env.PORT || 3000;
 
-import { pool, testConnection } from './config/db.js';
+app.use(express.json());
 
-const PORT = process.env.PORT || 3001;
+// Rutas de prueba o reales
+app.get('/', (req, res) => {
+  res.send('API funcionando correctamente ✅');
+});
 
+// Función principal
 async function startServer() {
   try {
-    await testConnection();
+    await db.sequelize.authenticate();
+    console.log('✅ Conexión con la base de datos establecida exitosamente.');
+
+    if (process.env.NODE_ENV === 'development') {
+      await db.sequelize.sync({ alter: true });
+      console.log('🛠️ Base de datos sincronizada');
+    }
 
     app.listen(PORT, () => {
       console.log(`🚀 Servidor corriendo en el puerto ${PORT}`);
-      console.log(`   Visita http://localhost:${PORT}`);
+      console.log(`🗓️  Hoy es ${new Date().toLocaleDateString('es-CL', { timeZone: 'America/Santiago' })}`);
     });
-
   } catch (error) {
-    console.error('❌ Error fatal: no se pudo iniciar el servidor.', error);
-    if (pool) await pool.end();
+    console.error('❌ Error al iniciar el servidor:', error);
     process.exit(1);
   }
 }
