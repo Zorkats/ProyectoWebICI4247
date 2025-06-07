@@ -19,7 +19,7 @@ export const createTrip = async (req, res) => {
     const statusExists = await TripStatus.findByPk(status_id);
     if (!statusExists) {
       return res.status(400).json({ message: 'El estado de viaje especificado no existe.' });
-    }
+    } 
 
     const newTrip = await Trip.create({
       user_id: userId,

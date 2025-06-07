@@ -5,6 +5,8 @@ import morgan from 'morgan';
 
 import profileRoutes from './routes/profile.routes.js';
 import authRoutes from './routes/auth.routes.js';
+import tripRoutes from './routes/trip.routes.js';
+import destinationRoutes from './routes/destination.routes.js';
 
 const app = express();
 
@@ -15,6 +17,8 @@ if (process.env.NODE_ENV !== 'test') app.use(morgan('dev'));
 
 app.use('/api/auth', authRoutes);
 app.use('/api/profile', profileRoutes);
+app.use('/api/trips', tripRoutes);
+app.use('/api/destinations', destinationRoutes);
 
 app.get('/', (_, res) => res.send('API funcionando correctamente ✅'));
 
