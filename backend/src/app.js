@@ -1,4 +1,5 @@
 import express from 'express';
+import authRoutes from './routes/auth.routes.js';
 
 const app = express();
 
@@ -12,4 +13,5 @@ app.get('/api/saludo', (req, res) => {
   res.json({ mensaje: '¡Hola desde la API!' });
 });
 
+app.use('/api/auth', authRoutes);
 export default app;
