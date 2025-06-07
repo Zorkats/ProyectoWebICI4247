@@ -1,9 +1,9 @@
-// app.js
 import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import morgan from 'morgan';
 
+import profileRoutes from './routes/profile.routes.js';
 import authRoutes from './routes/auth.routes.js';
 
 const app = express();
@@ -14,6 +14,7 @@ app.use(helmet());
 if (process.env.NODE_ENV !== 'test') app.use(morgan('dev'));
 
 app.use('/api/auth', authRoutes);
+app.use('/api/profile', profileRoutes);
 
 app.get('/', (_, res) => res.send('API funcionando correctamente ✅'));
 
