@@ -29,6 +29,7 @@ export class LoginPage implements OnInit {
 
   ngOnInit() {}
 
+  // En la clase LoginPage, busca este método
   async onLogin() {
     if (this.loginForm.invalid) {
       // Si el formulario es inválido, marcamos los campos como 'touched' para mostrar errores
@@ -46,9 +47,12 @@ export class LoginPage implements OnInit {
     this.authService.login({ email, password }).subscribe({
       next: () => {
         loading.dismiss();
-        // Redirige al dashboard o a 'mis-viajes' después de un login exitoso.
-        // `replaceUrl: true` evita que el usuario pueda volver a la página de login con el botón de atrás.
-        this.router.navigateByUrl('/mis-viajes', { replaceUrl: true });
+        
+        // --- AQUÍ ESTÁ EL CAMBIO ---
+        // Cambia '/mis-viajes' por '/profile'
+        this.router.navigateByUrl('/profile', { replaceUrl: true });
+        // -----------------------------
+
       },
       error: async (err: any) => {
         loading.dismiss();
