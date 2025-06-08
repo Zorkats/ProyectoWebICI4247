@@ -15,10 +15,10 @@ import { AlertController } from '@ionic/angular';
 export class MisViajesPage implements OnInit {
   @ViewChild(SideBarComponent) sidebar!: SideBarComponent;
 
-  viajes: Viaje[] = []; // CAMBIO: Renombrado a minúscula por convención.
+  viajes: Viaje[] = [];
   isLoading = true;
 
-  // CAMBIO: Eliminamos los datos falsos del constructor.
+ 
   constructor(
     private tripService: TripService,
     private alertController: AlertController
@@ -28,7 +28,10 @@ export class MisViajesPage implements OnInit {
     this.loadTrips();
   }
 
-  // La lógica de este método ahora es correcta y funcionará.
+  ionViewWillEnter() {
+    this.loadTrips();
+  }
+
   loadTrips() {
     this.isLoading = true;
     this.tripService.getUserTrips().subscribe({

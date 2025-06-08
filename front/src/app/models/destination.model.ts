@@ -1,12 +1,21 @@
+export interface DestinationCategory {
+  id: number;
+  name: string;
+}
+
 export interface Destination {
   id: number;
   name: string;
-  description: string | null;
-  country: string | null;
-  main_image_url: string | null;
+  description: string;
+  country: string;
+  main_image_url: string;
   category_id: number;
-  category?: { // La relación `category` que incluyes en el backend
-    id: number;
-    name: string;
-  };
+  category?: DestinationCategory; 
+}
+
+export interface DestinationsResponse {
+  totalItems: number;
+  totalPages: number;
+  currentPage: number;
+  destinations: Destination[];
 }
