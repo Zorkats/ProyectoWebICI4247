@@ -1,6 +1,7 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import { Viaje } from 'src/app/models/viaje.model';
 import {MenuController} from "@ionic/angular";
+import { TripService } from 'src/app/services/trip.service';
 import {SideBarComponent} from "../../components/side-bar/side-bar.component";
 
 @Component({
@@ -14,7 +15,8 @@ export class MisViajesPage implements OnInit {
 
 
   Viajes: Viaje[] = [];
-  constructor(private menuCtrl: MenuController) {
+  isLoading = true;
+  constructor(private menuCtrl: MenuController, private tripService: TripService) {
     this.Viajes = [
       {
         id: 1,
@@ -83,8 +85,22 @@ export class MisViajesPage implements OnInit {
 
   }
 
-  ngOnInit() {}
-
+  ngOnInit() {
+    this.loadTrips();
+  }
+  loadTrips() {
+    this.isLoading = true;
+    this.tripService.getUserTrips().subscribe({
+      next: data => {
+        this.Viajes = data;
+        this.isLoading = false;
+      },
+      error: error => {
+        console.error('Error al cargar los viajes', error);
+        this.isLoading = false;
+      }
+    });
+  }
   async openMenu() {
     await this.menuCtrl.open('sideMenu');
   }

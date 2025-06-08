@@ -1,6 +1,6 @@
-import {Component, HostListener, Input, OnInit} from '@angular/core';
+import { Component, HostListener, Input, OnInit, ViewChild} from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
-import { MenuController } from '@ionic/angular';
+import { IonMenu, MenuController } from '@ionic/angular';
 import { filter } from 'rxjs/operators';
 
 @Component({
@@ -12,8 +12,9 @@ import { filter } from 'rxjs/operators';
 export class SideBarComponent implements OnInit {
 
   isOpen = false;
-
+  @ViewChild ('menu') menu!: IonMenu;
   @Input() overlayId = 'sidebar-overlay';
+  @Input() menuId: string = 'sideMenu';
 
   constructor(private router: Router) {}
 
