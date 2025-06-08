@@ -1,29 +1,37 @@
-<app-side-bar overlayId="explore-overlay"></app-side-bar>
+<app-side-bar #sidebar overlayId="mis-viajes-overlay"></app-side-bar>
 
 <ion-header class="ion-no-border">
-    <ion-toolbar>
-      <ion-buttons slot="start">
-        <app-menu-button (toggleMenu)="sidebar.toggleSidebar()"></app-menu-button>
-      </ion-buttons>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <app-menu-button (toggleMenu)="sidebar.toggleSidebar()"></app-menu-button>
+    </ion-buttons>
+    <ion-title>Mis Viajes</ion-title>
+    <ion-buttons slot="end">
+      <ion-button size="default" class="custom-button" routerLink="/crear-viaje">
+        <span>+</span> Nuevo Viaje
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
 
-      <ion-title>Mis Viajes</ion-title>
-      <ion-buttons slot="end">
-        <ion-button size="default" class="custom-button" routerLink="/crear-viaje"><span>+</span> Nuevo Viaje</ion-button>
-      </ion-buttons>
+<ion-content class="ion-padding">
+  
+  <div *ngIf="isLoading" class="ion-text-center ion-padding">
+    <ion-spinner name="crescent"></ion-spinner>
+  </div>
 
-    </ion-toolbar>
-  </ion-header>
-
-
-  <ion-content class="ion-padding">
-    <ion-grid [fixed]="true">
-      <ion-row>
-          @for(viaje of Viajes; track $index){
-            <ion-col size="12" size-md="6" size-lg="4">
-            <app-tarjeta-viaje [viaje]="viaje"></app-tarjeta-viaje>
-            </ion-col>
-          }
-      </ion-row>
-    </ion-grid>
-
-  </ion-content>
+  <ion-grid [fixed]="true" *ngIf="!isLoading">
+    <ion-row>
+      @for(viaje of viajes; track viaje.id){
+        <ion-col size="12" size-md="6" size-lg="4">
+          <app-tarjeta-viaje [viaje]="viaje"></app-tarjeta-viaje>
+        </ion-col>
+      } @empty {
+        <ion-col size="12" class="ion-text-center ion-padding">
+          <p>Aún no tienes viajes planificados.</p>
+          <p>¡Crea tu primer viaje para comenzar!</p>
+        </ion-col>
+      }
+    </ion-row>
+  </ion-grid>
+</ion-content>

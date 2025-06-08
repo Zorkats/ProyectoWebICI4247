@@ -2,20 +2,26 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 
-import { provideHttpClient, withInterceptors } from '@angular/common/http'; 
+// CAMBIO: Ya no necesitamos 'withInterceptors' porque no hay interceptores
+import { provideHttpClient } from '@angular/common/http'; 
 
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 
-import { jwtInterceptor } from './interceptors/jwt.interceptor'; 
+// ELIMINADO: La importación del interceptor ya no es necesaria
+// import { jwtInterceptor } from './interceptors/jwt.interceptor'; 
 
 @NgModule({
   declarations: [AppComponent],
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
-    , provideHttpClient(withInterceptors([jwtInterceptor]))
+  providers: [
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    
+    // CAMBIO: Simplificamos el provider. Ahora solo proveemos el HttpClient
+    // sin interceptores adicionales.
+    provideHttpClient()
   ],
   bootstrap: [AppComponent],
 })

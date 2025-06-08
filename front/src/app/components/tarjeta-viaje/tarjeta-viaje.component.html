@@ -1,29 +1,26 @@
-
-<ion-card>
-  <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/card-media.png" />
+<ion-card class="trip-card" *ngIf="viaje">
+  <img [src]="viaje.image_url || 'assets/images/placeholder-trip.jpg'" alt="Imagen del viaje a {{ viaje.destination.name }}" />
+  
   <ion-card-header>
-    <div id="contenedor">
-      <ion-card-title>{{viaje.nombre}}</ion-card-title>
-      <ion-text color="medium">
-        <span id="boton">{{viaje.estado}}</span>
-      </ion-text>
-    </div>
-    <ion-card-subtitle>{{viaje.destino}}</ion-card-subtitle>
+    <ion-card-title>{{ viaje.name }}</ion-card-title>
+    <ion-card-subtitle>{{ viaje.destination.name }}, {{ viaje.destination.country }}</ion-card-subtitle>
   </ion-card-header>
 
-  <ion-card-content id="content-container">
-    
-    <ion-text style="display: flex; gap: 10px;"><ion-icon name="calendar"></ion-icon>{{viaje.fechaInicio}} - {{viaje.fechaFin}}</ion-text>
-    <ion-text style="display: flex; gap: 10px;"><ion-icon name="cash-outline"></ion-icon>Presupuesto: ${{viaje.presupuesto}}</ion-text>
-    
-    <div id="boton-container">
-      <ion-text>
-        <span style="font-weight: bold;">Editar</span>
-      </ion-text>
-      <ion-button size="small" class="custom-button">Ver detalles</ion-button>
+  <ion-card-content>
+    <ion-text color="medium">
+      <p><ion-icon name="calendar-outline" slot="start"></ion-icon> {{ viaje.start_date | date:'dd/MM/yyyy' }} - {{ viaje.end_date | date:'dd/MM/yyyy' }}</p>
+    </ion-text>
 
-    </div>
-
+    <ion-chip [color]="viaje.status.name === 'COMPLETADO' ? 'success' : (viaje.status.name === 'CANCELADO' ? 'danger' : 'primary')">
+      <ion-label>{{ viaje.status.name }}</ion-label>
+    </ion-chip>
   </ion-card-content>
+  
+  <ion-footer class="ion-no-border">
+    <ion-toolbar>
+      <ion-buttons slot="end">
+        <ion-button fill="clear" [routerLink]="['/viajes', viaje.id]">Ver Detalles</ion-button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-footer>
 </ion-card>
-

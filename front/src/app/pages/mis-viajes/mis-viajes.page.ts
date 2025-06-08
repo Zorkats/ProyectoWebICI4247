@@ -1,8 +1,10 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+// src/app/pages/mis-viajes/mis-viajes.page.ts
+
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Viaje } from 'src/app/models/viaje.model';
-import {MenuController} from "@ionic/angular";
 import { TripService } from 'src/app/services/trip.service';
-import {SideBarComponent} from "../../components/side-bar/side-bar.component";
+import { SideBarComponent } from '../../components/side-bar/side-bar.component'; // Corregido 'shared' a 'components' si aplica
+import { AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-mis-viajes',
@@ -13,97 +15,37 @@ import {SideBarComponent} from "../../components/side-bar/side-bar.component";
 export class MisViajesPage implements OnInit {
   @ViewChild(SideBarComponent) sidebar!: SideBarComponent;
 
-
-  Viajes: Viaje[] = [];
+  viajes: Viaje[] = []; // CAMBIO: Renombrado a minúscula por convención.
   isLoading = true;
-  constructor(private menuCtrl: MenuController, private tripService: TripService) {
-    this.Viajes = [
-      {
-        id: 1,
-        nombre: 'Viaje a la playa',
-        destino: 'Playa del Carmen',
-        fechaInicio: '2023-12-01',
-        fechaFin: '2023-12-10',
-        presupuesto: 5000,
-        estado: 'Pendiente'
-      },
-      {
-        id: 2,
-        nombre: 'Viaje a la montaña',
-        destino: 'Cerro de la Silla',
-        fechaInicio: '2023-11-15',
-        fechaFin: '2023-11-20',
-        presupuesto: 3000,
-        estado: 'Completado'
-      },
-      {
-        id: 3,
-        nombre: 'Viaje a la ciudad',
-        destino: 'Ciudad de México',
-        fechaInicio: '2023-10-20',
-        fechaFin: '2023-10-25',
-        presupuesto: 7000,
-        estado: 'Cancelado'
-      },
-      {
-        id: 4,
-        nombre: 'Viaje a la selva',
-        destino: 'Selva Lacandona',
-        fechaInicio: '2023-09-05',
-        fechaFin: '2023-09-12',
-        presupuesto: 4000,
-        estado: 'Pendiente'
-      },
-      {
-        id: 5,
-        nombre: 'Viaje a la montaña',
-        destino: 'Cerro de la Silla',
-        fechaInicio: '2023-11-15',
-        fechaFin: '2023-11-20',
-        presupuesto: 3000,
-        estado: 'Completado'
-      },
-      {
-        id: 6,
-        nombre: 'Viaje a la ciudad',
-        destino: 'Ciudad de México',
-        fechaInicio: '2023-10-20',
-        fechaFin: '2023-10-25',
-        presupuesto: 7000,
-        estado: 'Cancelado'
-      },
-      {
-        id: 7,
-        nombre: 'Viaje a la selva',
-        destino: 'Selva Lacandona',
-        fechaInicio: '2023-09-05',
-        fechaFin: '2023-09-12',
-        presupuesto: 4000,
-        estado: 'Pendiente'
-      }
-    ];
 
-  }
+  // CAMBIO: Eliminamos los datos falsos del constructor.
+  constructor(
+    private tripService: TripService,
+    private alertController: AlertController
+  ) {}
 
   ngOnInit() {
     this.loadTrips();
   }
+
+  // La lógica de este método ahora es correcta y funcionará.
   loadTrips() {
     this.isLoading = true;
     this.tripService.getUserTrips().subscribe({
       next: data => {
-        this.Viajes = data;
+        this.viajes = data;
         this.isLoading = false;
       },
-      error: error => {
+      error: async (error) => {
         console.error('Error al cargar los viajes', error);
         this.isLoading = false;
+        const alert = await this.alertController.create({
+          header: 'Error',
+          message: 'No se pudieron cargar tus viajes. Por favor, intenta de nuevo.',
+          buttons: ['OK'],
+        });
+        await alert.present();
       }
     });
   }
-  async openMenu() {
-    await this.menuCtrl.open('sideMenu');
-  }
-
-
 }

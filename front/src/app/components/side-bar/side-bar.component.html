@@ -15,18 +15,17 @@
             <button class="close-button" (click)="closeSidebar()">×</button>
         </div>
 
-        <div class="user-container">
+        <div class="user-container" *ngIf="currentUser$ | async as user">
             <div class="avatar-container">
                 <img src="https://github.com/DmV554.png" alt="Avatar" class="avatar">
             </div>
-
             <div class="user-info">
-                <p class="user-name">Usuario</p>
-                <p class="user-role">Viajero</p>
+                <p class="user-name">{{ user.name }}</p>
+                <p class="user-role">{{ user.email }}</p> 
             </div>
         </div>
 
-        <nav class="sidebar-nav">
+        <nav class="sidebar-nav" *ngIf="currentUser$ | async">
             <ul class="menu-list">
                 <li class="menu-item" routerLink="/dashboard" routerLinkActive="active">
                     <span class="menu-icon">🏠</span>

@@ -2,21 +2,33 @@ import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import morgan from 'morgan';
+import cookieParser from 'cookie-parser';
 
-import profileRoutes from './routes/profile.routes.js';
+import userRoutes from './routes/user.routes.js';
 import authRoutes from './routes/auth.routes.js';
 import tripRoutes from './routes/trip.routes.js';
 import destinationRoutes from './routes/destination.routes.js';
 
+
 const app = express();
 
 app.use(express.json());
-app.use(cors());
+app.use(cookieParser()); // <-- Usar el middleware
+
+const corsOptions = {
+  // CAMBIO: No uses '*', especifica el origen de tu app Ionic.
+  origin: 'http://localhost:8100', // O el puerto que use `ionic serve`
+  
+  // NUEVO: Esta opción es OBLIGATORIA para que las cookies funcionen.
+  credentials: true 
+};
+
+app.use(cors(corsOptions));
 app.use(helmet());
 if (process.env.NODE_ENV !== 'test') app.use(morgan('dev'));
 
 app.use('/api/auth', authRoutes);
-app.use('/api/profile', profileRoutes);
+app.use('/api/user', userRoutes);
 app.use('/api/trips', tripRoutes);
 app.use('/api/destinations', destinationRoutes);
 

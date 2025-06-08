@@ -1,99 +1,50 @@
-<app-side-bar overlayId="explore-overlay"></app-side-bar>
+<app-side-bar #sidebar overlayId="profile-overlay"></app-side-bar>
 
 <div class="ion-page" id="main-content">
-<ion-header>
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <app-menu-button (toggleMenu)="sidebar.toggleSidebar()"></app-menu-button>
-    </ion-buttons>
-    <ion-title>Mi Perfil</ion-title>
-  </ion-toolbar>
-</ion-header>
+  <ion-header>
+    <ion-toolbar>
+      <ion-buttons slot="start">
+        <app-menu-button (toggleMenu)="sidebar.toggleSidebar()"></app-menu-button>
+      </ion-buttons>
+      <ion-title>Mi Perfil</ion-title>
+    </ion-toolbar>
+  </ion-header>
 
-<ion-content class="ion-padding">
-  <div class="content-container">
-    <!-- Page Title -->
-    <h1>Mi Perfil</h1>
-    <!-- Profile Section -->
-    <div class="profile-section">
-      <div class="profile-header">
-        <div class="avatar-container">
-          <ion-avatar class="profile-avatar">
-            <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
-          </ion-avatar>
-          <ion-button fill="clear" class="camera-button">
-            <ion-icon name="camera-outline"></ion-icon>
-          </ion-button>
+  <ion-content class="ion-padding">
+    
+    <ng-container *ngIf="currentUser$ | async as user; else loadingTemplate">
+      <div class="content-container">
+        <h1>Mi Perfil</h1>
+        
+        <div class="profile-section">
+          <div class="profile-header">
+            <div class="avatar-container">
+              <ion-avatar class="profile-avatar">
+                <img alt="Avatar del usuario" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+              </ion-avatar>
+              <ion-button fill="clear" class="camera-button">
+                <ion-icon name="camera-outline"></ion-icon>
+              </ion-button>
+            </div>
+            <div class="profile-info">
+              <h2>{{ user.name }}</h2>
+              <p>{{ user.email }}</p>
+              <ion-button fill="clear" color="primary" (click)="changeProfilePhoto()">
+                Cambiar foto de perfil
+              </ion-button>
+            </div>
+          </div>
         </div>
-        <div class="profile-info">
-          <h2>Usuario</h2>
-          <p>Viajero</p>
-          <ion-button fill="clear" color="primary" (click)="changeProfilePhoto()">
-            Cambiar foto de perfil
-          </ion-button>
+
         </div>
+    </ng-container>
+
+    <ng-template #loadingTemplate>
+      <div class="ion-text-center ion-padding">
+        <ion-spinner name="crescent"></ion-spinner>
+        <p>Cargando perfil...</p>
       </div>
-    </div>
-    <!-- Statistics Section -->
-    <div class="section">
-      <h2 class="section-title">Estadísticas</h2>
-      <div class="stats-container">
-        <ion-card>
-          <ion-card-content>
-            <p class="stats-label">Viajes completados</p>
-            <p class="stats-value">12</p>
-          </ion-card-content>
-        </ion-card>
-        <ion-card>
-          <ion-card-content>
-            <p class="stats-label">Países visitados</p>
-            <p class="stats-value">8</p>
-          </ion-card-content>
-        </ion-card>
-        <ion-card>
-          <ion-card-content>
-            <p class="stats-label">Días viajando</p>
-            <p class="stats-value">42</p>
-          </ion-card-content>
-        </ion-card>
-      </div>
-    </div>
-    <!-- Password Change Section -->
-    <div class="section">
-      <h2 class="section-title">Cambiar Contraseña</h2>
-      <form>
-        <ion-item>
-          <ion-label position="stacked">Contraseña actual</ion-label>
-          <ion-input type="password"></ion-input>
-        </ion-item>
-        <ion-item>
-          <ion-label position="stacked">Nueva Contraseña</ion-label>
-          <ion-input type="password"></ion-input>
-        </ion-item>
-      </form>
-    </div>
-    <!-- Account Settings Section -->
-    <div class="section">
-      <h2 class="section-title">Configuración de la cuenta</h2>
-      <ion-card>
-        <ion-card-content>
-          <ion-item lines="full">
-            <ion-label>
-              <h3>Notificaciones por email</h3>
-              <p>Recibe actualizaciones sobre tus viajes</p>
-            </ion-label>
-            <ion-toggle [(ngModel)]="emailNotifications" slot="end" color="primary"></ion-toggle>
-          </ion-item>
-          <ion-item lines="none">
-            <ion-label>
-              <h3>Modo oscuro</h3>
-              <p>Cambia la apariencia de la aplicación</p>
-            </ion-label>
-            <ion-toggle [(ngModel)]="darkMode" slot="end" color="primary"></ion-toggle>
-          </ion-item>
-        </ion-card-content>
-      </ion-card>
-    </div>
-  </div>
-</ion-content>
+    </ng-template>
+
+  </ion-content>
 </div>
