@@ -12,14 +12,15 @@
 
 1. [Resumen del Proyecto](#resumen-del-proyecto)
 2. [Entrega Parcial 1](#entrega-parcial-1)
-3. [Pasos para ejecutar el Proyecto](#pasos-para-ejecutar-el-proyecto)
-4. [Roles del Sistema](#roles-del-sistema)
-5. [Requerimientos Funcionales por Rol](#requerimientos-funcionales-por-rol)
-6. [Requerimientos Funcionales](#requerimientos-funcionales)
-7. [Requerimientos No Funcionales](#requerimientos-no-funcionales)
-8. [Arquitectura de la Información](#arquitectura-de-la-información)
-9. [Prototipo de Diseño](#prototipo-de-diseño)
-10. [Librerías y Tecnologías](#librerías-y-tecnologías)
+3. [Entrega Parcial 2](#entrega-parcial-2)
+4. [Pasos para ejecutar el Proyecto](#pasos-para-ejecutar-el-proyecto)
+5. [Roles del Sistema](#roles-del-sistema)
+6. [Requerimientos Funcionales por Rol](#requerimientos-funcionales-por-rol)
+7. [Requerimientos Funcionales](#requerimientos-funcionales)
+8. [Requerimientos No Funcionales](#requerimientos-no-funcionales)
+9. [Arquitectura de la Información](#arquitectura-de-la-información)
+10. [Prototipo de Diseño](#prototipo-de-diseño)
+11. [Librerías y Tecnologías](#librerías-y-tecnologías)
 
 ## Resumen del Proyecto
 
@@ -40,7 +41,73 @@ A continuación se describe la entrega parcial 1, con las diversas implementacio
   - [Dashboard-page](https://github.com/Zorkats/ProyectoWebICI4247/tree/dashboard-page): Creación y desarrollo frontend de la pagina Dashboard/Inicio
   - [Crear-viajes-page](https://github.com/Zorkats/ProyectoWebICI4247/tree/crear-viajes-page): Creación y desarrollo frontend de la pagina Crear viajes
   
-    
+
+## Entrega Parcial 2
+A continuacion se describe la entrega parcial 2, con los nuevos avances realizados en el proyecto. En esta segunda entrega, el enfoque ha sido la construcción de un backend robusto con Node.js y Express, su conexión con una base de datos MySQL a través del ORM Sequelize, y la integración completa con el frontend de Ionic/Angular.
+
+### EP 2.1: Creación del Servidor en Node.js con Express
+
+Se ha desarrollado un servidor backend funcional y robusto utilizando **Node.js** y el framework **Express**, que se encarga de gestionar toda la lógica de negocio y las peticiones de la API REST.
+
+* **Punto de Entrada y Configuración**: El punto de entrada del servidor es `backend/src/server.js`, responsable de iniciar la aplicación. La configuración principal de Express se centraliza en `backend/src/app.js`, donde se definen middlewares esenciales como `cors` y `express.json()` y se montan las rutas de la API.
+* **Gestión de Entorno**: El servidor utiliza variables de entorno (`dotenv`) para gestionar de forma segura la configuración del puerto y la base de datos.
+* **Dependencias y Scripts**: Todas las dependencias del proyecto, incluyendo `express`, `sequelize`, `mysql2`, `jsonwebtoken`, y `bcryptjs`, están declaradas en el archivo `backend/package.json`. Se han configurado scripts como `start` y `dev` para la ejecución del servidor.
+
+
+
+### EP 2.2: Configuración y Modelado de la Base de Datos Relacional
+
+Se ha diseñado y configurado una base de datos relacional **MySQL**, gestionada eficientemente a través del ORM **Sequelize**.
+
+* **Esquema y Estructura**: El esquema completo de la base de datos, con tablas como `users`, `trips`, `destinations`, y `user_roles`, está definido en `database/schema.sql` o `backend/src/config/db_info/schema.sql`.
+* **Modelos de Datos**: Los modelos de Sequelize, que mapean las tablas, se encuentran en el directorio `backend/src/models/`. El archivo `backend/src/models/index.js` importa los modelos y establece sus asociaciones.
+* **Conexión y Datos Iniciales**: La configuración de la conexión de Sequelize con la base de datos se maneja en `backend/src/config/db.js`. Se han incluido *seeds* en `backend/src/config/db_info/seeds.sql` para la inicialización de datos básicos como roles.
+
+
+
+### EP 2.3: Desarrollo de API REST con Endpoints Básicos
+
+Se ha implementado una **API RESTful** completa que expone los endpoints necesarios para las operaciones **CRUD** (Crear, Leer, Actualizar, Borrar) sobre las principales entidades de la aplicación.
+
+* **Estructura de Rutas y Controladores**: La lógica está organizada de forma modular. Las rutas de la API se definen en la carpeta `backend/src/routes/` (ej. `user.routes.js`), conectando los endpoints con sus funciones en la carpeta `backend/src/controllers/` (ej. `user.controller.js`).
+* **Endpoints Implementados**: Se han desarrollado endpoints para la gestión de autenticación (`/api/auth`), usuarios (`/api/user`), viajes (`/api/trips`) y destinos (`/api/destinations`). Esto incluye un endpoint `POST /register` para el registro de nuevos usuarios y `POST /login` para la autenticación.
+
+
+
+### EP 2.4: Consumo de la API desde Ionic usando HttpClient
+
+El frontend de **Ionic/Angular** se ha conectado con el backend para consumir los datos de la API de forma dinámica.
+
+* **HttpClient de Angular**: Se utiliza el módulo `HttpClient` de Angular para realizar todas las llamadas a la API REST de manera estandarizada y eficiente.
+* **Servicios de Datos**: Se han desarrollado servicios específicos como `AuthService`, `TripService` y `DestinationService` para encapsular la lógica de las llamadas a la API, facilitando la gestión de datos.
+* **Envío de Credenciales**: La aplicación frontend está configurada para enviar credenciales (cookies) en cada petición a los endpoints protegidos.
+* **Interfaz Dinámica**: La interfaz de usuario reacciona al estado de autenticación, mostrando contenido personalizado según si el usuario ha iniciado sesión o no.
+
+
+
+### EP 2.5: Implementación de Autenticación con JWT
+
+Se ha implementado un sistema de autenticación completo y seguro basado en **JSON Web Tokens (JWT)** para gestionar el registro e inicio de sesión.
+
+* **Hashing de Contraseñas**: Las contraseñas se hashean de forma segura antes de almacenarse en la base de datos, utilizando la librería `bcryptjs`.
+* **Generación de Tokens**: Tras un inicio de sesión exitoso, el `auth.controller.js` genera un token JWT firmado usando la librería `jsonwebtoken`.
+* **Almacenamiento Seguro del Token**: Para mayor seguridad, el token JWT se almacena en una **cookie `httpOnly`**, lo que mitiga ataques de tipo XSS al impedir su acceso desde el lado del cliente.
+
+
+
+### EP 2.6: Validación de Usuarios y Manejo de Sesiones
+
+Se han implementado **middlewares** y **guardias de rutas** para asegurar que solo los usuarios autorizados puedan acceder a recursos específicos.
+
+* **Middleware de Autenticación**: El middleware `backend/src/middlewares/auth.middleware.js` protege las rutas que requieren autenticación. Verifica la validez del token JWT en cada petición y deniega el acceso si no es válido.
+* **Middleware de Autorización por Roles**: Se ha implementado un middleware de autorización (`backend/src/middlewares/role.middleware.js`) para restringir el acceso a ciertos endpoints según el rol del usuario (ej. `ADMIN`).
+* **Protección de Rutas en Frontend (AuthGuard)**: En el lado del cliente, un `AuthGuard` de Angular verifica el estado de autenticación del usuario antes de permitir el acceso a rutas protegidas como `/profile` o `/mis-viajes`, redirigiendo al login si es necesario.
+
+### Pruebas de Integración
+
+La API ha sido probada exhaustivamente utilizando **Postman** para verificar el correcto funcionamiento de cada endpoint. Se validó el registro de usuarios, el inicio de sesión, la generación de tokens y el acceso a rutas protegidas, asegurando una integración sólida entre el frontend y el backend.
+
+---
 
 ## Pasos para ejecutar el Proyecto
 De manera preliminar, asegurarse de instalar **Node.js**
