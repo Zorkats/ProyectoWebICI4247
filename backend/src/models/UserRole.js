@@ -16,11 +16,12 @@ export default (sequelize, DataTypes) => {
     }
   }, {
     tableName: 'user_roles',
+    underscored: true,
     timestamps: true
   });
 
   UserRole.associate = models => {
-    UserRole.hasMany(models.User, { foreignKey: 'role_id' });
+    UserRole.hasMany(models.User, { foreignKey: 'role_id', as: 'users' });
   };
 
   return UserRole;

@@ -1,173 +1,128 @@
-<app-side-bar overlayId="explore-overlay"></app-side-bar>
+<app-side-bar></app-side-bar>
 
 <div class="ion-page" id="main-content">
-    <ion-header class="ion-no-border">
-      <ion-toolbar>
-            <ion-buttons slot="start">
-              <app-menu-button (toggleMenu)="sidebar.toggleSidebar()"></app-menu-button>
-            </ion-buttons>
+  <ion-header class="ion-no-border">
+    <ion-toolbar>
+      <div class="toolbar-container">
+        <ion-row class="ion-justify-content-between ion-align-items-center">
+          <ion-buttons>
+            <ion-menu-button menu="sideMenu"></ion-menu-button>
+          </ion-buttons>
+          <ion-title>Crea nuevo viaje</ion-title>
+        </ion-row>
+      </div>
+    </ion-toolbar>
+  </ion-header>
 
-            <ion-title>Crea nuevo viaje</ion-title>
-      </ion-toolbar>
-    </ion-header>
+  <ion-content class="ion-padding">
+    <form [formGroup]="tripForm" (ngSubmit)="createTrip()">
+      <ion-grid [fixed]="true" class="grid-container">
+        <ion-row>
+          <ion-button id="custom-button" style="padding-bottom: 10px; --background: black" routerLink="/mis-viajes">
+            <ion-icon name="arrow-back-outline"></ion-icon> Volver a Mis Viajes
+          </ion-button>
+        </ion-row>
 
-
-    <ion-content class="ion-padding">
-
-        <ion-grid [fixed]="true">
+        <ion-card class="form-section-card">
+          <ion-card-header>
             <ion-row>
-                <ion-button id="custom-button" style="padding-bottom: 10px; --background: black" routerLink="/mis-viajes">
-                    <ion-icon name="arrow-back-outline"></ion-icon> Volver a Mis Viajes
-                </ion-button>
-
+              <ion-text class="title-section">Informacion Básica</ion-text>
             </ion-row>
             <ion-row>
-                <ion-text style="font-size: 20px;">Informacion Básica</ion-text>
-
+              <ion-text class="description-section" style="padding-top: 5px;">Proporciona los detalles principales para tu viaje</ion-text>
             </ion-row>
-            <ion-row>
-                <ion-text style="color: rgb(105, 105, 105); font-size: 15px;">Proporciona los detalles principales para tu viaje</ion-text>
-            </ion-row>
-
-
+          </ion-card-header>
+          
+          <ion-card-content>
             <ion-row style="padding-top: 20px;">
-
-                <ion-col size="12" size-sm="6">
-                    <ion-text style="font-size: 17px; padding-left: 10px;">Nombre del viaje</ion-text>
-                    <ion-input shape="round" fill="outline" placeholder="Aventura por Calama"></ion-input>
-                </ion-col>
-
-                <ion-col size="12" size-sm="6">
-                    <ion-text style="font-size: 17px; padding-left: 10px;">Destino</ion-text>
-                    <ion-input shape="round" fill="outline" placeholder="Patagonia, Chile"></ion-input>
-                </ion-col>
-
-            </ion-row>
-
-            <ion-row style="padding-top: 20px;">
-                <ion-col size="12" size-sm="6">
-                    <ion-text style="font-size: 17px; padding-left: 10px;">Fecha de Inicio</ion-text>
-                    <ion-input shape="round" fill="outline" placeholder="dd/mm/aa"></ion-input>
-                </ion-col>
-
-                <ion-col size="12" size-sm="6">
-                    <ion-text style="font-size: 17px; padding-left: 10px;">Fecha de Fin</ion-text>
-                    <ion-input shape="round" fill="outline" placeholder="dd/mm/aa"></ion-input>
-                </ion-col>
-
-            </ion-row>
-
-            <ion-row>
-                <ion-text style="font-size: 20px; padding-top: 20px;">Criterios de Planificación</ion-text>
+              <ion-col size="12" size-sm="6">
+                <ion-input formControlName="name" class="custom-input" label="Nombre del Viaje" label-placement="floating" placeholder="Ej: Aventura por Chile"></ion-input>
+              </ion-col>
+              
+              <ion-col size="12" size-sm="6">
+                <ion-input class="custom-input" label="Destino" label-placement="floating" placeholder="Ej: Escribe para buscar..." 
+                           [(ngModel)]="searchTerm" [ngModelOptions]="{standalone: true}"
+                           (ionInput)="filterDestinations()"></ion-input>
+                <ion-list *ngIf="filteredDestinations.length > 0" class="autocomplete-list">
+                  <ion-item *ngFor="let dest of filteredDestinations" (click)="selectDestination(dest)" button>
+                    <ion-label>{{ dest.name }}, {{ dest.country }}</ion-label>
+                  </ion-item>
+                </ion-list>
+              </ion-col>
             </ion-row>
 
             <ion-row style="padding-top: 20px;">
-                <ion-col size="auto">
-                  <ion-text style="font-size: 20px;">Presupuesto</ion-text>
-                </ion-col>
+              <ion-col size="12" size-sm="6"> 
+                <ion-input formControlName="start_date" class="custom-input" label="Fecha de Inicio" [value]="tripForm.get('start_date')?.value | date:'dd/MM/yyyy'" id="datetime-inicio" readonly></ion-input>
+                <ion-popover trigger="datetime-inicio" size="cover">
+                  <ng-template>
+                    <ion-datetime formControlName="start_date" presentation="date" locale="es-ES"></ion-datetime>
+                  </ng-template>
+                </ion-popover>
+              </ion-col>
+              <ion-col size="12" size-sm="6"> 
+                <ion-input formControlName="end_date" class="custom-input" label="Fecha de Fin" [value]="tripForm.get('end_date')?.value | date:'dd/MM/yyyy'" id="datetime-fin" readonly></ion-input>
+                <ion-popover trigger="datetime-fin" size="cover">
+                  <ng-template>
+                    <ion-datetime formControlName="end_date" presentation="date" locale="es-ES" [min]="tripForm.get('start_date')?.value | date:'yyyy-MM-dd'"></ion-datetime>
+                  </ng-template>
+                </ion-popover>
+              </ion-col>
+            </ion-row>
+          </ion-card-content>
+        </ion-card>
+        
+        <ion-card class="form-section-card">
+          <ion-card-header>
+            <ion-row>
+              <ion-text class="title-section" style="font-size: 20px; padding-top: 20px;">Criterios de Planificación</ion-text>
+            </ion-row>
+          </ion-card-header>
+          
+          <ion-card-content>
+            <ion-row style="padding-top: 20px;">
+              <ion-col size="auto"> 
+                <ion-text style="font-size: 20px; color: rgb(45, 45, 45);">Presupuesto</ion-text>
+              </ion-col>
+              <ion-col class="ion-text-end"> 
+                <ion-text style="font-size: 20px;">{{ tripForm.get('budget')?.value | currency:'CLP':'symbol-narrow':'1.0-0' }}</ion-text>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col size="12"> 
+                <ion-range formControlName="budget" aria-label="Presupuesto" [min]="0" [max]="30000000" [step]="100000">
+                  <ion-text slot="start" style="font-size: 15px;">$0</ion-text>
+                  <ion-text slot="end" style="font-size: 15px;">$30M</ion-text>
+                </ion-range>
+              </ion-col>
+            </ion-row>
+    
+            
+            <ion-row style="padding-top: 25px;">
+              <ion-text style="font-size: 20px; color: rgb(45, 45, 45);">Intereses</ion-text>
+            </ion-row>
+            <ion-row class="ion-align-items-center ion-padding-top">
+              <ion-chip *ngFor="let interes of intereses"
+                        [outline]="!selectedInterests[interes]" 
+                        [color]="selectedInterests[interes] ? 'primary' : 'medium'"
+                        (click)="toggleInterest(interes)">
+                <ion-label>{{ interes }}</ion-label>
+              </ion-chip>
+            </ion-row>
+            
+          </ion-card-content>
+        </ion-card>
+        
+        <ion-row class="ion-justify-content-end" style="padding-top: 50px;">
+          <ion-col size="auto">
+            <ion-button routerLink="/mis-viajes" style="--background: white; color: black;">Cancelar</ion-button>
+          </ion-col>
+          <ion-col size="auto">
+            <ion-button type="submit" [disabled]="tripForm.invalid" style="--background: black; color: white;">Crear Itinerario</ion-button>
+          </ion-col>
+        </ion-row>
 
-                <ion-col class="ion-text-end">
-                    <ion-text style="font-size: 20px;"> $1.200.000</ion-text>
-                </ion-col>
-              </ion-row>
-
-              <ion-row>
-                <ion-col size="12">
-                  <ion-range aria-label="Custom range" [value]="50">
-                    <ion-text slot="start" style="font-size: 15px;">$0</ion-text>
-                    <ion-text slot="end" style="font-size: 15px;">$30.000.000</ion-text>
-                  </ion-range>
-                </ion-col>
-              </ion-row>
-
-              <ion-row>
-                <ion-text style="font-size: 20px;">Tipo de Alojamiento</ion-text>
-              </ion-row>
-
-              <ion-row style="padding-top: 20px;">
-                <ion-col>
-                    <ion-checkbox labelPlacement="end" style="--size: 25px">
-                        <ion-text class="text-checkbox">Hotel</ion-text>
-                    </ion-checkbox>
-                </ion-col>
-
-                <ion-col>
-                    <ion-checkbox labelPlacement="end" style="--size: 25px">
-                        <ion-text class="text-checkbox">Hostel</ion-text>
-                    </ion-checkbox>
-                </ion-col>
-
-                <ion-col>
-                    <ion-checkbox labelPlacement="end" style="--size: 25px">
-                        <ion-text class="text-checkbox">Airbnb</ion-text>
-                    </ion-checkbox>
-
-                </ion-col>
-
-                <ion-col>
-                    <ion-checkbox labelPlacement="end" style="--size: 25px">
-                        <ion-text class="text-checkbox">Camping</ion-text>
-                    </ion-checkbox>
-
-                </ion-col>
-
-              </ion-row>
-
-              <ion-row style="padding-top: 40px;">
-                <ion-text style="font-size: 20px;">Intereses</ion-text>
-              </ion-row>
-
-              <ion-row style="padding-top: 20px;">
-                <ion-col>
-                    <ion-checkbox labelPlacement="end" style="--size: 25px">
-                        <ion-text class="text-checkbox">Naturaleza</ion-text>
-                    </ion-checkbox>
-                </ion-col>
-
-                <ion-col>
-                    <ion-checkbox labelPlacement="end" style="--size: 25px">
-                        <ion-text class="text-checkbox">Gastronomía</ion-text>
-                    </ion-checkbox>
-                </ion-col>
-
-                <ion-col>
-                    <ion-checkbox labelPlacement="end" style="--size: 25px">
-                        <ion-text class="text-checkbox">Vida Nocturna</ion-text>
-                    </ion-checkbox>
-
-                </ion-col>
-
-                <ion-col>
-                    <ion-checkbox labelPlacement="end" style="--size: 25px">
-                        <ion-text class="text-checkbox">Camping</ion-text>
-                    </ion-checkbox>
-
-                </ion-col>
-
-                <ion-col>
-                    <ion-checkbox labelPlacement="end" style="--size: 25px">
-                        <ion-text class="text-checkbox">Turismo</ion-text>
-                    </ion-checkbox>
-
-                </ion-col>
-
-              </ion-row>
-
-
-              <ion-row class="ion-justify-content-end" style="padding-top: 50px;">
-                <ion-col size="auto">
-                    <ion-button style="--background: white; color: black;" >Cancelar</ion-button>
-
-                </ion-col>
-
-                <ion-col size="auto">
-                    <ion-button style="--background: black; color: white;">Crear Itinerario</ion-button>
-                </ion-col>
-              </ion-row>
-
-
-        </ion-grid>
-
-    </ion-content>
-
+      </ion-grid>
+    </form>
+  </ion-content>
 </div>

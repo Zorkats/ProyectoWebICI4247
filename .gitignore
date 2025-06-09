@@ -72,3 +72,4 @@ front/typings/
 
 backend/node_modules
 backend/.env
+node_modules

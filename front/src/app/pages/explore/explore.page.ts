@@ -1,15 +1,11 @@
-// explore.page.ts
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {MenuController} from "@ionic/angular";
-import {SideBarComponent} from "../../components/side-bar/side-bar.component";
+import { Component, ViewChild, OnInit } from '@angular/core';
+import { LoadingController } from '@ionic/angular';
+import { finalize } from 'rxjs/operators';
 
-interface Destination {
-  id: number;
-  name: string;
-  region: string;
-  image: string;
-  badge: string;
-}
+import { DestinationService } from '../../services/destination.service';
+import { Destination } from '../../models/destination.model';
+
+import { SideBarComponent } from '../../components/side-bar/side-bar.component';
 
 @Component({
   selector: 'app-explore',
@@ -24,58 +20,69 @@ export class ExplorePage implements OnInit {
   exploreCategorySegment: string = 'beaches';
   searchTerm: string = '';
 
-  popularDestinations: Destination[] = [
-    { id: 1, name: "Patagonia", region: "Sudamérica", image: "https://ionicframework.com/docs/img/demos/card-media.png", badge: "Aventura" },
-    { id: 2, name: "Barcelona", region: "Europa", image: "https://ionicframework.com/docs/img/demos/card-media.png", badge: "Cultural" },
-    { id: 3, name: "Bali", region: "Asia", image: "https://ionicframework.com/docs/img/demos/card-media.png", badge: "Playas" },
-    { id: 4, name: "Queenstown", region: "Oceanía", image: "https://ionicframework.com/docs/img/demos/card-media.png", badge: "Aventura" },
-  ];
+  public allDestinations: Destination[] = [];
+  public popularDestinations: Destination[] = [];
+  public beachDestinations: Destination[] = [];
+  public mountainDestinations: Destination[] = [];
+  public cityDestinations: Destination[] = [];
+  public trendingDestinations: Destination[] = [];
 
-  // Destinos por categoría
-  beachDestinations: Destination[] = [
-    { id: 101, name: "Islas Maldivas", region: "Asia", image: "https://ionicframework.com/docs/img/demos/card-media.png", badge: "Playas Paradisíacas" },
-    { id: 102, name: "Cancún", region: "Norteamérica", image: "https://ionicframework.com/docs/img/demos/card-media.png", badge: "Resort" },
-    { id: 103, name: "Santorini", region: "Europa", image: "https://ionicframework.com/docs/img/demos/card-media.png", badge: "Vistas al Mar" },
-    { id: 104, name: "Phi Phi Islands", region: "Asia", image: "https://ionicframework.com/docs/img/demos/card-media.png", badge: "Aguas Cristalinas" },
-  ];
+  public isLoading: boolean = true;
 
-  mountainDestinations: Destination[] = [
-    { id: 201, name: "Alpes Suizos", region: "Europa", image: "https://ionicframework.com/docs/img/demos/card-media.png", badge: "Montañas" },
-    { id: 202, name: "Machu Picchu", region: "Sudamérica", image: "https://ionicframework.com/docs/img/demos/card-media.png", badge: "Histórico" },
-    { id: 203, name: "Himalaya", region: "Asia", image: "https://ionicframework.com/docs/img/demos/card-media.png", badge: "Trekking" },
-    { id: 204, name: "Montañas Rocosas", region: "Norteamérica", image: "https://ionicframework.com/docs/img/demos/card-media.png", badge: "Naturaleza" },
-  ];
+  constructor(
+    private destinationService: DestinationService,
+    private loadingCtrl: LoadingController
+  ) {}
 
-  cityDestinations: Destination[] = [
-    { id: 301, name: "Tokio", region: "Asia", image: "https://ionicframework.com/docs/img/demos/card-media.png", badge: "Urbano" },
-    { id: 302, name: "Nueva York", region: "Norteamérica", image: "https://ionicframework.com/docs/img/demos/card-media.png", badge: "Cosmopolita" },
-    { id: 303, name: "París", region: "Europa", image: "https://ionicframework.com/docs/img/demos/card-media.png", badge: "Romántico" },
-    { id: 304, name: "Ciudad del Cabo", region: "África", image: "https://ionicframework.com/docs/img/demos/card-media.png", badge: "Vistas" },
-  ];
-
-  trendingDestinations: Destination[] = [...this.popularDestinations];
-
-  constructor(private menuCtrl: MenuController) {}
-
-  ngOnInit() {}
-
-  async openMenu() {
-    await this.menuCtrl.open('sideMenu');
+  ngOnInit() {
   }
 
-  // Método para manejar el clic del botón de búsqueda (opcional, depende de cómo implementes la búsqueda)
+  ionViewWillEnter() {
+    this.loadDestinations();
+  }
+
+  async loadDestinations() {
+    this.isLoading = true;
+    const loading = await this.loadingCtrl.create({
+      message: 'Descubriendo destinos...',
+      spinner: 'crescent'
+    });
+    await loading.present();
+
+    this.destinationService.getDestinations(1, 30)
+      .pipe(finalize(() => {
+        this.isLoading = false;
+        loading.dismiss();
+      }))
+      .subscribe({
+        next: response => {
+          this.allDestinations = response.destinations;
+
+          this.distributeDestinations();
+        },
+        error: err => {
+          console.error('Error al cargar destinos:', err)
+        }
+      });
+  }
+
+
+  distributeDestinations(): void {
+  
+    this.popularDestinations = this.allDestinations.slice(0, 8);
+    this.trendingDestinations = this.allDestinations.slice(0, 4);
+    this.beachDestinations = this.allDestinations.filter(d => d.category?.name.toLowerCase() === 'playa');
+    this.mountainDestinations = this.allDestinations.filter(d => d.category?.name.toLowerCase() === 'montaña');
+    this.cityDestinations = this.allDestinations.filter(d => d.category?.name.toLowerCase() === 'ciudad');
+  }
+
   performSearch() {
-    console.log('Buscando:', this.searchTerm, 'en categoría:', this.searchCategorySegment);
+   
   }
-
-  // Método para el botón "Crear itinerario con IA"
   createAiItinerary() {
-    console.log('Navegando a la creación de itinerario con IA...');
+  
   }
-
-  // Método para los botones "Ver todos"
   viewAll(type: string) {
-    console.log(`Navegando para ver todos los destinos de tipo: ${type}`);
+    
   }
-
 }

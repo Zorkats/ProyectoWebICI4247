@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import {IonicModule} from "@ionic/angular";
+import { Component } from '@angular/core';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -7,10 +7,15 @@ import {IonicModule} from "@ionic/angular";
   styleUrls: ['./header.component.scss'],
   standalone: false
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent {
+  // NUEVO: Exponemos los observables del AuthService a la plantilla.
+  public isAuthenticated$ = this.authService.isAuthenticated$;
+  public currentUser$ = this.authService.currentUser$;
 
-  constructor() { }
+  constructor(private authService: AuthService) {}
 
-  ngOnInit() {}
-
+  // NUEVO: Método para cerrar sesión.
+  logout(): void {
+    this.authService.logout();
+  }
 }

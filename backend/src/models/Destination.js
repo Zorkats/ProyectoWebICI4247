@@ -1,6 +1,6 @@
 export default (sequelize, DataTypes) => {
-
   const Destination = sequelize.define('Destination', {
+    // ... todos tus campos (id, name, description, etc.)
     id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
@@ -28,10 +28,12 @@ export default (sequelize, DataTypes) => {
     }
   }, {
     tableName: 'destinations',
-    timestamps: true
+    timestamps: true,
+    underscored: true // <--- AÑADE ESTA LÍNEA
   });
 
   Destination.associate = models => {
+    // Esta asociación también se beneficiará de 'underscored: true'
     Destination.belongsTo(models.DestinationCategory, { foreignKey: 'category_id', as: 'category' });
     Destination.hasMany(models.Trip, { foreignKey: 'destination_id' });
   };

@@ -1,4 +1,4 @@
-<app-side-bar overlayId="explore-overlay"></app-side-bar>
+<app-side-bar #sidebar overlayId="dashboard-overlay"></app-side-bar>
 
 <ion-header class="custom-explore-header" [translucent]="false">
   <ion-toolbar>
@@ -11,22 +11,33 @@
 
 <ion-content [fullscreen]="true" class="ion-padding">
 
-  <ion-text color="dark" class="greeting-text">
-    <h2>¡Hola, Usuario!, tu siguiente viaje es:</h2>
+  <ion-text color="dark" class="greeting-text" *ngIf="currentUser$ | async as user">
+    <h2>¡Hola, {{ user.name }}!</h2>
   </ion-text>
 
-  <ion-row class="ion-justify-content-center">
+  <div *ngIf="isLoading" class="ion-text-center ion-padding">
+    <ion-spinner name="crescent" color="primary"></ion-spinner>
+  </div>
 
-    @for(viaje of Viajes; track $index){
-      <ion-col size="8" size-md="8" size-lg="4" class="card-column ion-margin-bottom">
-        <app-tarjeta-viaje [viaje]="viaje"></app-tarjeta-viaje>
-      </ion-col>
-    } @empty {
-      <ion-col size="12">
-        <ion-text class="ion-text-center" color="medium"> <p>No hay viajes para mostrar.</p>
-        </ion-text>
-      </ion-col>
-    }
-  </ion-row>
+  <div *ngIf="!isLoading">
+    
+    <div *ngIf="nextTrip; else noNextTrip">
+      <ion-text color="dark"><p>Tu siguiente viaje es:</p></ion-text>
+      <ion-row class="ion-justify-content-center">
+        <ion-col size="12" size-md="8" size-lg="6">
+          <app-tarjeta-viaje [viaje]="nextTrip"></app-tarjeta-viaje>
+        </ion-col>
+      </ion-row>
+    </div>
 
+    <ng-template #noNextTrip>
+      <div class="ion-text-center ion-padding">
+        <ion-icon name="paper-plane-outline" size="large" color="medium"></ion-icon>
+        <p *ngIf="!errorLoadingTrips">¡Felicidades! No tienes viajes próximos.<br>¿Listo para planear una nueva aventura?</p>
+        <p *ngIf="errorLoadingTrips" color="danger">Ocurrió un error al cargar tus viajes.</p>
+        <ion-button routerLink="/crear-viaje" fill="clear">Planear un nuevo viaje</ion-button>
+      </div>
+    </ng-template>
+
+  </div>
 </ion-content>

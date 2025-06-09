@@ -43,7 +43,8 @@ export default (sequelize, DataTypes) => {
     }
   }, {
     tableName: 'trips',
-    timestamps: true
+    timestamps: true,
+    underscored: true
   });
 
   Trip.associate = models => {

@@ -1,7 +1,10 @@
-import {Component, HostListener, Input, OnInit} from '@angular/core';
+import { Component, HostListener, Input, OnInit, ViewChild} from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
-import { MenuController } from '@ionic/angular';
+import { IonMenu } from '@ionic/angular';
 import { filter } from 'rxjs/operators';
+
+// NUEVO: 1. Importamos el AuthService
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-side-bar',
@@ -12,13 +15,22 @@ import { filter } from 'rxjs/operators';
 export class SideBarComponent implements OnInit {
 
   isOpen = false;
-
+  @ViewChild ('menu') menu!: IonMenu;
   @Input() overlayId = 'sidebar-overlay';
+  @Input() menuId: string = 'sideMenu';
 
-  constructor(private router: Router) {}
+  // NUEVO: 3. Exponemos los observables del AuthService a la plantilla HTML.
+  public currentUser$ = this.authService.currentUser$;
+  public isAuthenticated$ = this.authService.isAuthenticated$;
+
+  // CAMBIO: 2. Inyectamos el AuthService en el constructor.
+  constructor(
+    private router: Router,
+    private authService: AuthService 
+  ) {}
 
   ngOnInit() {
-    // Cerrar el sidebar al navegar a otra ruta
+    // Esta lógica se mantiene, es correcta.
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)
     ).subscribe(() => {
@@ -26,10 +38,11 @@ export class SideBarComponent implements OnInit {
     });
   }
 
+  // TODA LA LÓGICA SIGUIENTE PARA CONTROLAR EL SIDEBAR SE MANTIENE IGUAL.
+  // No es necesario cambiarla.
+
   toggleSidebar() {
     this.isOpen = !this.isOpen;
-
-    // Controlar la capacidad de scroll del body cuando el sidebar está abierto
     if (this.isOpen) {
       document.body.style.overflow = 'hidden';
     } else {
@@ -49,14 +62,12 @@ export class SideBarComponent implements OnInit {
     }
   }
 
-  // Cerrar el sidebar si se hace clic en el overlay
   handleOverlayClick(event: MouseEvent) {
     if ((event.target as HTMLElement).id === this.overlayId) {
       this.closeSidebar();
     }
   }
 
-  // Cerrar el sidebar al presionar la tecla ESC
   @HostListener('document:keydown.escape')
   onEscKeyHandler() {
     this.closeSidebar();
