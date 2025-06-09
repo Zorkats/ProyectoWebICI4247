@@ -106,6 +106,29 @@ Se han implementado **middlewares** y **guardias de rutas** para asegurar que so
 ### Pruebas de Integración
 
 La API ha sido probada exhaustivamente utilizando **Postman** para verificar el correcto funcionamiento de cada endpoint. Se validó el registro de usuarios, el inicio de sesión, la generación de tokens y el acceso a rutas protegidas, asegurando una integración sólida entre el frontend y el backend.
+## Ejemplos POSTMAN
+Se usó una cookie para obtener respuestas de END POINTS que necesitan de autenticación.
+
+**GET** /api/destinations
+
+![image](https://github.com/user-attachments/assets/0c83a7e5-34ed-4843-810a-8c51ffbd7c86)
+![image](https://github.com/user-attachments/assets/ed5d318f-2cc0-430d-b25d-6f1a5a7e148d)
+
+**GET** /api/trips (viajes de un usuario)
+
+![image](https://github.com/user-attachments/assets/ae81c48a-eb2d-4bc9-803b-7a6fe9cbf0e8)
+![image](https://github.com/user-attachments/assets/07da5e83-1ece-4b31-b411-7cdaef62da41)
+
+**GET** /api/trips/:tripid (detalles viaje especifico)
+
+![image](https://github.com/user-attachments/assets/eab82c19-2b6c-4c9b-9212-a1d2d2363749)
+![image](https://github.com/user-attachments/assets/03bf404c-6dc6-40eb-86a0-147ff1baaf65)
+
+**POST** /api/trips (crear viaje)
+
+![image](https://github.com/user-attachments/assets/d805556d-6163-4aef-8829-65c321aee848)
+![image](https://github.com/user-attachments/assets/0a9667b7-1580-4411-bfcb-29055bf826f3)
+
 
 ---
 
