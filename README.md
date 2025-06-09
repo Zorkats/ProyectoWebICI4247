@@ -109,12 +109,78 @@ La API ha sido probada exhaustivamente utilizando **Postman** para verificar el 
 
 ---
 
-## Pasos para ejecutar el Proyecto
-De manera preliminar, asegurarse de instalar **Node.js**
-1. Primeramente se debe de hacer instalacion de Ionic, donde mediante la terminal seria: `npm install -g @ionic/cli`
-2. Con Ionic instalado, se procede a clonar el proyecto desde Github en el presente repositorio. Esto se logra usando la terminal y escribiendo **HTTPS**: `git clone https://github.com/Zorkats/ProyectoWebICI4247.git` **SSH**: `git clone git@github.com:Zorkats/ProyectoWebICI4247.git`
-3. Una vez se tenga el directorio **ProyectoWebICI4247**, lo abrimos y ejecutamos en la terminal (estando dentro del directorio) `npm install package.json`. Instalando las dependencias del proyecto.
-4. Ya con las dependencias instaladas, procedemos a compilar y ejecutar el proyecto con `ionic serve`. Abriendo de manera local el proyecto.
+## Pasos para Ejecutar el Proyecto
+
+Esta guía cubre todos los pasos necesarios, desde la configuración del entorno hasta la ejecución del frontend y el backend.
+
+### 1. Prerrequisitos
+Antes de empezar, asegúrate de tener instalado el siguiente software en tu sistema.
+
+* **Node.js**: Necesario para gestionar los paquetes y ejecutar el entorno de JavaScript.
+* **Ionic CLI**: Instala la Interfaz de Línea de Comandos (CLI) de Ionic de forma global, que es esencial para compilar y ejecutar la aplicación.
+    ```sh
+    npm install -g @ionic/cli
+    ```
+* **MySQL**: El proyecto requiere una base de datos MySQL. Asegúrate de que el servicio esté instalado y en ejecución.
+* **Git**: Necesario para clonar el repositorio del proyecto.
+
+---
+
+### 2. Configuración Inicial del Proyecto
+
+1.  **Clonar el Repositorio**: Abre tu terminal y clona el proyecto desde GitHub en tu máquina local.
+    * Usando HTTPS:
+        ```sh
+        git clone [https://github.com/Zorkats/ProyectoWebICI4247.git](https://github.com/Zorkats/ProyectoWebICI4247.git)
+        ```
+    * O usando SSH:
+        ```sh
+        git clone git@github.com:Zorkats/ProyectoWebICI4247.git
+        ```
+2.  **Navegar al Directorio del Proyecto**: Una vez clonado, entra en la carpeta principal del proyecto.
+    ```sh
+    cd ProyectoWebICI4247
+    ```
+
+---
+
+### 3. Configuración y Ejecución del Backend
+Sigue estos pasos en una terminal para poner en marcha el servidor.
+
+1.  **Navegar al Backend**: Desde la raíz del proyecto, muévete al directorio del backend.
+    ```sh
+    cd backend
+    ```
+2.  **Configurar la Base de Datos**:
+    * Crea una base de datos en tu instancia local de MySQL.
+    * Ejecuta el script `database/schema.sql` (o `backend/src/config/db_info/schema.sql`) para crear la estructura de las tablas.
+    * Ejecuta el script `backend/src/config/db_info/seeds.sql` para cargar datos iniciales como roles de usuario.
+    * Crea un archivo llamado `.env` en la raíz de la carpeta `backend/`. Dentro de este archivo, define las variables de entorno para la conexión a tu base de datos (puerto, host, usuario, contraseña, etc.).
+3.  **Instalar Dependencias**: Instala todos los paquetes de Node.js necesarios para el servidor.
+    ```sh
+    npm install
+    ```
+4.  **Iniciar el Servidor**: Ejecuta el servidor en modo de desarrollo.
+    ```sh
+    npm run dev
+    ```
+    El backend ahora estará activo, escuchando las peticiones de la API. Mantén esta terminal abierta.
+
+---
+
+### 4. Ejecución del Frontend
+Sigue estos pasos en una **nueva terminal** para levantar la aplicación de Ionic.
+
+1.  **Navegar al Frontend**: Desde la raíz del proyecto, muévete al directorio del frontend (probablemente llamado `front/`).
+2.  **Instalar Dependencias**: Instala todos los paquetes necesarios para la aplicación de Ionic/Angular.
+    ```sh
+    npm install
+    ```
+3.  **Iniciar la Aplicación**: Compila y ejecuta el proyecto de manera local.
+    ```sh
+    ionic serve
+    ```
+    Este comando abrirá automáticamente la aplicación en tu navegador web. La aplicación frontend se conectará al backend que ya dejaste en ejecución.
 
 
 ## Roles del Sistema
@@ -209,3 +275,4 @@ La estructura de navegación fue representada en este diagrama y la experiencia 
 - **TypeScript**
 - **RxJS**
 - **Angular Router**
+- **Express**
