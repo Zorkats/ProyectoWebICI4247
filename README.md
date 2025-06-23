@@ -132,6 +132,47 @@ Se usó una cookie para obtener respuestas de END POINTS que necesitan de autent
 
 ---
 
+## Entrega Final
+Esta fase final del proyecto se centró en transformar la aplicación de un sistema básico de gestión de viajes a una plataforma de planificación y descubrimiento de contenido mucho más robusta, interactiva y segura, acercándola al nivel de aplicaciones de referencia en la industria.
+
+A continuación se detallan los pilares de desarrollo que marcaron esta evolución.
+
+### 1. Expansión del Modelo de Datos: Puntos de Interés (POI)
+Para que la aplicación fuera verdaderamente útil, era fundamental ir más allá de los "destinos" (ciudades/países) y catalogar lo que se puede hacer *dentro* de ellos.
+
+* **Nuevas Entidades en el Backend**: Se expandió la base de datos MySQL con las tablas `poi_categories` y `points_of_interest` para clasificar y almacenar lugares de interés (restaurantes, museos, etc.) y su relación con un destino.
+* **API para POI**: Se desarrollaron nuevos endpoints (`GET /api/destinations/:id/pois`, `GET /api/pois/:id`) para exponer este nuevo contenido de forma estructurada.
+* **Integración Frontend**: La página de detalle de un destino fue rediseñada para mostrar pestañas interactivas ("Atracciones", "Restaurantes") que listan los POI correspondientes, cada uno con su propia página de detalle.
+
+### 2. Mejora Radical de la Interfaz y Experiencia de Usuario (UI/UX)
+Se realizó un rediseño completo de las páginas clave para ofrecer una experiencia más moderna, profesional y, sobre todo, intuitiva y consistente.
+
+* **Diseño en Capas y Profundidad**: Se implementó un patrón de diseño "Sheet" en las páginas de detalle. Una "hoja" de contenido con fondo sólido y bordes redondeados se superpone a una imagen de cabecera inmersiva. Esto crea un efecto de profundidad, separa claramente la información de las imágenes de fondo y establece una estética premium.
+* **Jerarquía Visual Clara**: Mediante el uso estratégico de tamaños de fuente, grosores (`font-weight`) y el layout en capas, la interfaz ahora guía la vista del usuario hacia la información más importante primero, como el nombre del destino o del punto de interés.
+* **Consistencia en la Interfaz**: El mismo patrón de diseño y los mismos componentes se reutilizan en las páginas de detalle de Destinos y de POI. Esta consistencia hace que la aplicación sea predecible y fácil de usar, ya que el usuario aprende a interactuar con ella una sola vez.
+* **Retroalimentación Interactiva**: La experiencia de usuario se enriqueció añadiendo respuestas visuales a las acciones del usuario. Se utilizan `ion-spinner` durante las cargas de datos, `ion-toast` con mensajes de éxito para confirmar acciones (ej. "Lugar añadido al viaje"), y `ion-alert` para solicitar confirmaciones importantes (ej. "¿Seguro que quieres eliminar?").
+* **Descubrimiento de Contenido Mejorado**: En la página "Explorar", se reemplazaron las listas estáticas por un carrusel horizontal interactivo (implementado con **Swiper.js** tras la eliminación de `<ion-slides>`), permitiendo a los usuarios descubrir lugares sin cambiar de contexto.
+
+### 3. Implementación de Funcionalidades Avanzadas
+Se construyeron herramientas potentes que transforman la aplicación en una verdadera plataforma de planificación.
+
+* **Búsqueda Global Unificada**: Se implementó un endpoint `GET /api/search` que busca en múltiples tablas (`destinations` y `points_of_interest`) y devuelve resultados unificados. El frontend presenta estos resultados en una vista de búsqueda limpia, diferenciando cada tipo de resultado con iconos y texto, y optimizando el rendimiento con una lógica de **debouncing** mediante RxJS.
+* **Evolución de Viajes a Itinerarios Detallados**: La funcionalidad central fue rediseñada para permitir una planificación real.
+    * **Backend**: Se creó la tabla `itinerary_items` para conectar viajes (`trips`) con puntos de interés (`pois`), añadiendo la dimensión clave de `day_number`. El endpoint `GET /api/trips/:id` ahora devuelve el itinerario completo y ordenado. Se crearon también los endpoints para añadir y eliminar items del itinerario.
+    * **Frontend**: Se implementó el flujo completo: el usuario puede añadir cualquier POI a uno de sus viajes a través de un `ion-action-sheet`. Se creó una nueva página de detalle del viaje que presenta el itinerario agrupado por días, permitiendo al usuario visualizar su plan de forma clara y gestionar las actividades.
+
+### 4. Implementación de Medidas de Seguridad Robustas
+La seguridad ha sido un pilar fundamental en el desarrollo, protegiendo tanto al usuario como a la integridad de la aplicación contra vulnerabilidades comunes.
+
+* **Protección contra Inyección SQL (SQL Injection)**: La aplicación está protegida de forma nativa contra este tipo de ataques gracias al uso del ORM **Sequelize**. Todas las consultas a la base de datos se realizan a través de los métodos de Sequelize, que utilizan *consultas parametrizadas* (prepared statements). Esto asegura que la entrada del usuario siempre se trate como datos y nunca como código SQL ejecutable, neutralizando la amenaza de inyección.
+* **Protección contra Cross-Site Scripting (XSS)**: El uso del framework **Angular** proporciona una defensa automática y robusta contra XSS. Angular, por defecto, sanitiza todas las variables que se renderizan en las plantillas (ej. con `{{ variable }}`). Esto significa que cualquier script o HTML malicioso que un usuario intente introducir se mostrará como texto plano en lugar de ejecutarse en el navegador de otros usuarios.
+* **Protección contra Cross-Site Request Forgery (CSRF)**: La arquitectura de la API y el frontend implementan varias capas de mitigación. La configuración de **CORS (Cross-Origin Resource Sharing)** en el backend está restringida para aceptar peticiones únicamente desde el dominio del frontend. Adicionalmente, el uso de cookies `httpOnly` para el token JWT dificulta que scripts de otros sitios puedan secuestrar la sesión del usuario para realizar peticiones no autorizadas.
+* **Seguridad de Contraseñas y Autenticación**:
+    * **Hashing de Contraseñas**: Todas las contraseñas de los usuarios se almacenan en la base de datos después de ser procesadas con un algoritmo de hashing robusto (`bcryptjs`). Esto garantiza que, incluso en caso de una brecha de datos, las contraseñas originales no queden expuestas.
+    * **JWT en Cookies `httpOnly`**: El token de sesión se almacena en una cookie `httpOnly`, lo que impide que sea accesible a través de JavaScript en el lado del cliente. Esta es una medida de seguridad crítica que previene el robo del token a través de ataques XSS.
+
+---
+
 ## Pasos para Ejecutar el Proyecto
 
 Esta guía cubre todos los pasos necesarios, desde la configuración del entorno hasta la ejecución del frontend y el backend.
