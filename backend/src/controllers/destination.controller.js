@@ -1,6 +1,6 @@
 import db from '../models/index.js';
 
-const { Destination, DestinationCategory, Trip } = db;
+const { Destination, DestinationCategory, Trip, PoiCategory, PointOfInterest } = db;
 
 const destinationIncludeOptions = [
   {
@@ -148,5 +148,41 @@ export const deleteDestination = async (req, res) => {
   } catch (error) {
     console.error('Error al borrar destino:', error.message);
     res.status(500).json({ message: 'Error en el servidor al borrar el destino.' });
+  }
+};
+
+export const getPoisByDestination = async (req, res) => {
+  const { destinationId } = req.params;
+  const { category } = req.query; // Para filtrar, ej: ?category=Restaurante
+
+  try {
+    const whereClause = { destination_id: destinationId };
+
+    if (category) {
+      // Buscamos el ID de la categoría por su nombre para hacer el filtro
+      const categoryObj = await db.PoiCategory.findOne({ where: { name: category } });
+      if (categoryObj) {
+        whereClause.category_id = categoryObj.id;
+      } else {
+        return res.json([]); // Si la categoría no existe, devolvemos un array vacío
+      }
+    }
+
+    const pois = await PointOfInterest.findAll({
+      where: whereClause,
+      include: [
+        {
+          model: PoiCategory,
+          as: 'category',
+          attributes: ['name', 'icon_name']
+        }
+      ],
+      order: [['name', 'ASC']]
+    });
+
+    res.json(pois);
+  } catch (error) {
+    console.error('Error al obtener Puntos de Interés:', error.message);
+    res.status(500).json({ message: 'Error en el servidor al obtener Puntos de Interés.' });
   }
 };

@@ -5,7 +5,8 @@ import {
   getNextTrip,
   getTripDetails,
   updateTrip,
-  deleteTrip
+  deleteTrip,
+  addItineraryItem
 } from '../controllers/trip.controller.js';
 import {protect} from '../middlewares/auth.middleware.js';
 
@@ -18,5 +19,7 @@ router.get('/next', protect, getNextTrip); // Obtener el próximo viaje del usua
 router.get('/:tripId', protect, getTripDetails); // Obtener detalles de un viaje específico
 router.put('/:tripId', protect, updateTrip); // Actualizar un viaje específico
 router.delete('/:tripId', protect, deleteTrip); // Eliminar un viaje específico
+
+router.post('/:tripId/items', protect, addItineraryItem);
 
 export default router;

@@ -1,0 +1,81 @@
+<ion-header class="ion-no-border" [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/explore"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ destination?.name }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div *ngIf="isLoading" class="ion-text-center ion-padding">
+    <ion-spinner name="crescent"></ion-spinner>
+  </div>
+  <div *ngIf="errorMessage" class="ion-text-center ion-padding">
+    </div>
+
+  <div *ngIf="destination && !isLoading">
+    <div class="hero-image-container" [style.background-image]="'url(' + destination.main_image_url + ')'">
+      <div class="hero-title">
+        <h1>{{ destination.name }}</h1>
+        <p>{{ destination.country }}</p>
+      </div>
+    </div>
+
+    <div class="content-sheet">
+      <ion-segment [(ngModel)]="selectedTab" mode="md" scrollable="true">
+        <ion-segment-button value="info"><ion-label>Información</ion-label></ion-segment-button>
+        <ion-segment-button value="attractions"><ion-label>Atracciones</ion-label></ion-segment-button>
+        <ion-segment-button value="restaurants"><ion-label>Restaurantes</ion-label></ion-segment-button>
+        <ion-segment-button value="museums"><ion-label>Museos</ion-label></ion-segment-button>
+        <ion-segment-button value="parks"><ion-label>Parques</ion-label></ion-segment-button>
+      </ion-segment>
+
+      <div [ngSwitch]="selectedTab" class="ion-padding-top">
+
+        <div *ngSwitchCase="'info'" class="ion-padding">
+          <ion-chip outline="true" color="primary">
+            <ion-icon name="pricetag-outline"></ion-icon>
+            <ion-label>{{ destination.category?.name }}</ion-label>
+          </ion-chip>
+
+          <p class="description-text">{{ destination.description }}</p>
+
+          <ion-list lines="full" class="ion-margin-top">
+            <ion-item *ngIf="destination.best_time_to_visit">
+              <ion-icon name="calendar-outline" slot="start" color="tertiary"></ion-icon>
+              <ion-label><h3>Mejor época para visitar</h3><p>{{ destination.best_time_to_visit }}</p></ion-label>
+            </ion-item>
+            <ion-item *ngIf="destination.average_daily_cost">
+              <ion-icon name="wallet-outline" slot="start" color="success"></ion-icon>
+              <ion-label><h3>Costo diario promedio</h3><p>{{ destination.average_daily_cost | currency:'USD':'symbol':'1.0-0' }}</p></ion-label>
+            </ion-item>
+          </ion-list>
+        </div>
+
+        <ng-container *ngFor="let tab of [{key: 'attractions', data: attractions}, {key: 'restaurants', data: restaurants}, {key: 'museums', data: museums}, {key: 'parks', data: parks}]">
+          <div *ngSwitchCase="tab.key">
+            <div *ngIf="poisLoading" class="ion-text-center ion-padding"><ion-spinner></ion-spinner></div>
+            <div *ngIf="!poisLoading">
+              <div *ngIf="tab.data.length === 0" class="ion-padding ion-text-center"><p>No hay lugares para mostrar en esta categoría.</p></div>
+              
+              <ion-grid fixed>
+                <ion-row>
+                  <ion-col size="12" size-sm="6" *ngFor="let poi of tab.data">
+                    <ion-card class="poi-list-card" [routerLink]="['/poi', poi.id]">
+                      <ion-img [src]="poi.main_image_url"></ion-img>
+                      <ion-card-header>
+                        <ion-card-title>{{ poi.name }}</ion-card-title>
+                      </ion-card-header>
+                    </ion-card>
+                  </ion-col>
+                </ion-row>
+              </ion-grid>
+            </div>
+          </div>
+        </ng-container>
+
+      </div>
+    </div>
+  </div>
+</ion-content>

@@ -1,0 +1,58 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/mis-viajes"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ trip?.name || 'Itinerario' }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div *ngIf="isLoading" class="ion-text-center ion-padding">
+    <ion-spinner></ion-spinner>
+  </div>
+
+  <div *ngIf="!isLoading && trip">
+
+    <div *ngIf="itineraryDays.length === 0" class="ion-text-center ion-padding empty-itinerary">
+      <ion-icon name="map-outline" color="medium"></ion-icon>
+      <h2>Itinerario Vacío</h2>
+      <p>Aún no has añadido lugares a este viaje.</p>
+      <ion-button routerLink="/explore" fill="outline">Explorar lugares</ion-button>
+    </div>
+
+    <div *ngIf="itineraryDays.length > 0">
+
+      <div *ngFor="let day of itineraryDays" class="day-container">
+
+        <ion-list-header class="day-header">
+          <ion-label>Día {{ day }}</ion-label>
+        </ion-list-header>
+
+        <ion-item-sliding *ngFor="let item of groupedItinerary[day]">
+
+          <ion-item lines="inset">
+            <ion-thumbnail slot="start">
+              <ion-img [src]="item.poi.main_image_url"></ion-img>
+            </ion-thumbnail>
+            <ion-label (click)="navigateToPoi(item.poi.id)" class="ion-activatable">
+              <h2>{{ item.poi.name }}</h2>
+              <p>{{ item.poi.category.name }}</p>
+              <ion-ripple-effect></ion-ripple-effect>
+            </ion-label>
+          </ion-item>
+
+          <ion-item-options side="end">
+            <ion-item-option color="danger" (click)="deleteItem(item.id)">
+              <ion-icon slot="icon-only" name="trash"></ion-icon>
+            </ion-item-option>
+          </ion-item-options>
+
+        </ion-item-sliding>
+
+      </div>
+
+    </div>
+
+  </div>
+</ion-content>

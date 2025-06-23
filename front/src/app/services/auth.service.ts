@@ -62,12 +62,12 @@ export class AuthService {
     this.http.post(`${this.apiUrl}/logout`, {}, { withCredentials: true }).subscribe({
       next: () => {
         this.currentUserSubject.next(null); // Limpiamos el estado local.
-        this.router.navigateByUrl('/login', { replaceUrl: true }); // Redirigimos a login.
+        this.router.navigateByUrl('/home', { replaceUrl: true }); // Redirigimos a login.
       },
       error: () => {
         // Incluso si hay un error, limpiamos el estado local por seguridad.
         this.currentUserSubject.next(null);
-        this.router.navigateByUrl('/login', { replaceUrl: true });
+        this.router.navigateByUrl('/home', { replaceUrl: true });
       }
     });
   }

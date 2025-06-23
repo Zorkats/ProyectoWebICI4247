@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -18,6 +18,7 @@ import { SharedModule } from '../../components/side-bar/side-bar-shared.module'
     ExplorePageRoutingModule,
     SharedModule,
   ],
-  declarations: [ExplorePage]
+  declarations: [ExplorePage],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class ExplorePageModule {}

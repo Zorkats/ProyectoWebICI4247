@@ -13,7 +13,16 @@ const routes: Routes = [
   },
   {
     path: 'explore',
-    loadChildren: () => import('./pages/explore/explore.module').then(m => m.ExplorePageModule)
+    loadChildren: () => import('./pages/explore/explore.module').then(m => m.ExplorePageModule),
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'destinations/:id', // La ruta con el parámetro :id
+    loadChildren: () => import('./pages/destination-detail/destination-detail.module').then( m => m.DestinationDetailPageModule)
+  },
+  {
+  path: 'poi/:id',
+  loadChildren: () => import('./pages/poi-detail/poi-detail.module').then( m => m.PoiDetailPageModule)
   },
   {
     path: 'profile',
@@ -25,6 +34,10 @@ const routes: Routes = [
     loadChildren: () => import('./pages/mis-viajes/mis-viajes.module').then(m => m.MisViajesPageModule),
     canActivate: [AuthGuard]
   },
+  {
+  path: 'trips/:id',
+  loadChildren: () => import('./pages/trip-detail/trip-detail.module').then( m => m.TripDetailPageModule)
+},
   {
     path: '',
     redirectTo: 'home',
@@ -46,6 +59,20 @@ const routes: Routes = [
     path: 'register',
     loadChildren: () => import('./pages/auth/register/register.module').then( m => m.RegisterPageModule)
   },
+  {
+    path: 'destination-detail',
+    loadChildren: () => import('./pages/destination-detail/destination-detail.module').then( m => m.DestinationDetailPageModule)
+  },
+  {
+    path: 'poi-detail',
+    loadChildren: () => import('./pages/poi-detail/poi-detail.module').then( m => m.PoiDetailPageModule)
+  },
+  {
+    path: 'trip-detail',
+    loadChildren: () => import('./pages/trip-detail/trip-detail.module').then( m => m.TripDetailPageModule)
+  },
+
+
 
 
 ];

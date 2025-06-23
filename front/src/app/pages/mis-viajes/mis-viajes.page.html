@@ -24,8 +24,8 @@
     <ion-row>
       @for(viaje of viajes; track viaje.id){
         <ion-col size="12" size-md="6" size-lg="4">
-          <app-tarjeta-viaje [viaje]="viaje"></app-tarjeta-viaje>
-        </ion-col>
+        <app-tarjeta-viaje [viaje]="viaje" [routerLink]="['/trips', viaje.id]"></app-tarjeta-viaje>        
+      </ion-col>
       } @empty {
         <ion-col size="12" class="ion-text-center ion-padding">
           <p>Aún no tienes viajes planificados.</p>

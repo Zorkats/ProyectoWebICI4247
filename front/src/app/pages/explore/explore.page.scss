@@ -374,3 +374,46 @@ ion-content.ion-padding-bottom { --padding-bottom: 1rem; }
 ion-item.section-header { --background: transparent; --inner-border-width: 0; } // Asegurar transparencia y sin línea interna
 ion-col { padding: 0 8px; }
 ion-row { margin: 0 -8px; }
+
+// explore.page.scss
+// src/app/pages/explore/explore.page.scss
+
+swiper-container {
+  // Añadimos un padding a la izquierda para que el carrusel no empiece pegado al borde
+  padding-left: 16px;
+  padding-bottom: 8px; // Un poco de espacio inferior
+}
+
+swiper-slide {
+  // Ajustamos el ancho para asegurar que la siguiente tarjeta siempre se asome
+  width: 70%; 
+  max-width: 280px;
+  display: block; // Ayuda a la consistencia del renderizado
+}
+
+.poi-card {
+  width: 100%;
+  margin: 0;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+
+  .poi-card-image {
+    height: 120px;
+    background-size: cover;
+    background-position: center;
+    border-radius: 8px 8px 0 0; // Bordes redondeados solo arriba
+  }
+
+  ion-card-header {
+    padding: 12px;
+  }
+
+  ion-card-title {
+    font-size: 1rem;
+    white-space: normal;
+    font-weight: 600;
+  }
+
+   ion-card-subtitle {
+    font-size: 0.8rem;
+   }
+}

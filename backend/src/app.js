@@ -8,6 +8,9 @@ import userRoutes from './routes/user.routes.js';
 import authRoutes from './routes/auth.routes.js';
 import tripRoutes from './routes/trip.routes.js';
 import destinationRoutes from './routes/destination.routes.js';
+import poiRoutes from './routes/poi.routes.js';
+import searchRoutes from './routes/search.routes.js'; // <-- IMPORTA
+import itineraryRoutes from './routes/itinerary.routes.js'; // <-- IMPORTA
 
 
 const app = express();
@@ -31,7 +34,9 @@ app.use('/api/auth', authRoutes);
 app.use('/api/user', userRoutes);
 app.use('/api/trips', tripRoutes);
 app.use('/api/destinations', destinationRoutes);
-
+app.use('/api/pois', poiRoutes);
+app.use('/api/search', searchRoutes); // <-- REGISTRA LA RUTA
+app.use('/api/itinerary-items', itineraryRoutes); // <-- REGISTRA
 app.get('/', (_, res) => res.send('API funcionando correctamente ✅'));
 
 // 404 handler

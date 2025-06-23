@@ -51,6 +51,7 @@ export default (sequelize, DataTypes) => {
     Trip.belongsTo(models.User, { foreignKey: 'user_id', as: 'user' });
     Trip.belongsTo(models.Destination, { foreignKey: 'destination_id', as: 'destination' });
     Trip.belongsTo(models.TripStatus, { foreignKey: 'status_id', as: 'status' });
+    Trip.hasMany(models.ItineraryItem, { foreignKey: 'trip_id', as: 'itineraryItems' });
   };
 
   return Trip;

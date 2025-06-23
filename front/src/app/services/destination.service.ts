@@ -5,6 +5,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Destination, DestinationsResponse } from '../models/destination.model';
+import { PointOfInterest } from '../models/poi.model';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +14,16 @@ export class DestinationService {
   private apiUrl = 'http://localhost:3000/api/destinations';
 
   constructor(private http: HttpClient) { }
+
+  getPoisByDestination(destinationId: number, categoryName?: string): Observable<PointOfInterest[]> {
+    let params = new HttpParams();
+    if (categoryName) {
+      params = params.set('category', categoryName);
+    }
+
+    const url = `${this.apiUrl}/${destinationId}/pois`;
+    return this.http.get<PointOfInterest[]>(url, { params, withCredentials: true });
+  }
 
 
   getDestinations(page: number = 1, limit: number = 10): Observable<DestinationsResponse> {

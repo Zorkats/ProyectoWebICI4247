@@ -82,3 +82,50 @@ CREATE TABLE trips (
     CONSTRAINT fk_trip_destination FOREIGN KEY (destination_id) REFERENCES destinations(id) ON DELETE RESTRICT,
     CONSTRAINT fk_trip_status FOREIGN KEY (status_id) REFERENCES trip_statuses(id) ON DELETE RESTRICT
 ) ENGINE=InnoDB;
+
+-- Tabla para las categorías de los Puntos de Interés
+CREATE TABLE poi_categories (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL UNIQUE,
+    icon_name VARCHAR(100) NULL, -- ej: 'restaurant-outline' para usar en Ionic
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB;
+
+-- Tabla para los Puntos de Interés
+CREATE TABLE points_of_interest (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    destination_id INT NOT NULL,
+    category_id INT NOT NULL,
+    name VARCHAR(255) NOT NULL,
+    description TEXT NULL,
+    address VARCHAR(255) NULL,
+    latitude DECIMAL(10, 8) NULL,
+    longitude DECIMAL(11, 8) NULL,
+    main_image_url VARCHAR(2048) NULL,
+    gallery_image_urls JSON NULL,
+    average_rating DECIMAL(3, 2) NOT NULL DEFAULT 0.00,
+    review_count INT NOT NULL DEFAULT 0,
+    contact_info JSON NULL, -- Para guardar { "phone": "...", "website": "..." }
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+
+    -- Foreign Keys
+    CONSTRAINT fk_poi_destination FOREIGN KEY (destination_id) REFERENCES destinations(id) ON DELETE CASCADE, -- Si se borra un destino, se borran sus POI
+    CONSTRAINT fk_poi_category FOREIGN KEY (category_id) REFERENCES poi_categories(id) ON DELETE RESTRICT
+) ENGINE=InnoDB;
+
+CREATE TABLE itinerary_items (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    trip_id INT NOT NULL,
+    poi_id INT NOT NULL,
+    day_number INT NOT NULL,
+    start_time TIME NULL,
+    end_time TIME NULL,
+    notes TEXT NULL,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+
+    CONSTRAINT fk_item_trip FOREIGN KEY (trip_id) REFERENCES trips(id) ON DELETE CASCADE,
+    CONSTRAINT fk_item_poi FOREIGN KEY (poi_id) REFERENCES points_of_interest(id) ON DELETE CASCADE
+) ENGINE=InnoDB;

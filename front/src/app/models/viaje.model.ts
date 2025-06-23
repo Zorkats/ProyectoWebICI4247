@@ -1,5 +1,5 @@
 // src/app/models/viaje.model.ts
-
+import { ItineraryItem } from './itinerary.model'; // <-- IMPORTA
 // NUEVO: Interfaz para el objeto 'destination' anidado
 export interface Destination {
   id: number;
@@ -31,4 +31,5 @@ export interface Viaje {
   // Campos que puedes necesitar para crear/actualizar, pero que no vienen en el GET anidado
   destination_id?: number;
   status_id?: number;
+  itineraryItems?: ItineraryItem[]; // <-- AÑADE ESTA PROPIEDAD OPCIONAL
 }

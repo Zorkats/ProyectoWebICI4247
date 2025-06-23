@@ -7,10 +7,6 @@
     </ion-buttons>
     <ion-title>Explorar</ion-title>
     <ion-buttons slot="end">
-      <ion-item lines="none" class="header-search-item">
-        <ion-icon name="search-outline" slot="start"></ion-icon>
-        <ion-input placeholder="Buscar..." type="search" class="custom-input"></ion-input>
-      </ion-item>
       <ion-button fill="clear" class="notification-button" color="dark">
         <ion-icon slot="icon-only" name="notifications-outline"></ion-icon>
         <div class="notification-dot"></div>
@@ -28,127 +24,162 @@
       <h1 class="ion-text-wrap">¿A dónde quieres ir?</h1>
       <p class="ion-text-wrap">Descubre destinos increíbles y planifica tu próxima aventura</p>
     </div>
-    <div class="ion-padding-horizontal ion-padding-bottom">
-      <ion-segment [(ngModel)]="searchCategorySegment" mode="md">
-        <ion-segment-button value="all"><ion-icon name="search-outline"></ion-icon><ion-label>Todo</ion-label></ion-segment-button>
-        <ion-segment-button value="hotels"><ion-icon name="bed-outline"></ion-icon><ion-label>Hoteles</ion-label></ion-segment-button>
-        <ion-segment-button value="activities"><ion-icon name="camera-outline"></ion-icon><ion-label>Actividades</ion-label></ion-segment-button>
-        <ion-segment-button value="restaurants"><ion-icon name="restaurant-outline"></ion-icon><ion-label>Restaurantes</ion-label></ion-segment-button>
-        <ion-segment-button value="flights"><ion-icon name="airplane-outline"></ion-icon><ion-label>Vuelos</ion-label></ion-segment-button>
-      </ion-segment>
-    </div>
+   
     <div class="ion-padding-horizontal ion-padding-bottom">
       <ion-searchbar
         [(ngModel)]="searchTerm"
-        placeholder="Destinos, hoteles, actividades..."
+        placeholder="Destinos, restaurantes, museos..."
         search-icon="location-outline"
-        (ionChange)="performSearch()"
+        (ionInput)="performSearch()"
+        [debounce]="400"
         enterkeyhint="search"
         class="custom-searchbar">
       </ion-searchbar>
     </div>
   </section>
 
-  <section class="ion-padding">
-    <div class="ai-banner">
-      <ion-grid fixed>
-        <ion-row class="ion-align-items-center">
-          <ion-col size="12" size-md="6">
-            <div class="ion-padding-vertical">
-              <ion-badge color="light" class="ai-badge"><ion-icon name="sparkles-outline" class="ion-margin-end"></ion-icon>Potenciado por IA</ion-badge>
-              <h2 class="ion-text-wrap ion-margin-top">Planifica tu tipo de viaje</h2>
-              <p class="ion-text-wrap ion-margin-top">Obtén recomendaciones personalizadas basadas en tus intereses, presupuesto y tiempo disponible.</p>
-              <ion-button expand="block" color="light" class="ion-margin-top ai-button" (click)="createAiItinerary()">
-                <ion-icon slot="start" name="sparkles-outline"></ion-icon>Crear itinerario con IA
-              </ion-button>
-            </div>
-          </ion-col>
-          <ion-col size="12" size-md="6" class="ion-hide-md-down ion-text-center">
-            <ion-img src="https://ionicframework.com/docs/img/demos/feature-ai.png" alt="Planificador de viajes IA" class="ai-image"></ion-img>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
+  <div *ngIf="!searchPerformed">
+    <div *ngIf="isLoading" class="ion-text-center ion-padding">
+      <ion-spinner name="crescent" color="primary"></ion-spinner>
     </div>
-  </section>
 
-  <div *ngIf="isLoading" class="ion-text-center ion-padding">
-    <ion-spinner name="crescent" color="primary"></ion-spinner>
-  </div>
+    <div *ngIf="!isLoading">
+      <section class="ion-padding">
+        <div class="ai-banner">
+            </div>
+      </section>
 
-  <div *ngIf="!isLoading">
-    <section class="ion-padding">
-      <ion-item lines="none" class="section-header">
-        <div slot="start">
-          <h2 class="ion-no-margin">Destinos populares</h2>
-          <p class="ion-no-margin ion-text-small">Descubre los lugares más visitados</p>
-        </div>
-        <ion-button slot="end" fill="clear" size="small" (click)="viewAll('popular')">Ver todos<ion-icon slot="end" name="arrow-forward-outline"></ion-icon></ion-button>
-      </ion-item>
-      <ion-grid fixed class="ion-margin-top">
-        <ion-row>
-          <ion-col size="12" size-sm="6" size-md="3" *ngFor="let destination of popularDestinations">
-            <ion-card class="destination-card" [routerLink]="['/destinations', destination.id]">
-              <div class="card-image-container">
-                <ion-img [src]="destination.main_image_url" [alt]="destination.name"></ion-img>
-                <ion-badge color="primary" class="card-badge">{{ destination.category?.name }}</ion-badge>
-              </div>
-              <ion-card-header>
-                <ion-card-title>{{ destination.name }}</ion-card-title>
-                <ion-card-subtitle>{{ destination.country }}</ion-card-subtitle>
-              </ion-card-header>
-            </ion-card>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
-    </section>
-
-    <section class="ion-padding">
-      <h2 class="ion-no-margin">Explora por categoría</h2>
-      <p class="ion-no-margin ion-text-small ion-text-color-step-600 ion-margin-bottom">Encuentra el tipo de destino perfecto</p>
-      <ion-segment [(ngModel)]="exploreCategorySegment" mode="md" class="category-segment">
-        <ion-segment-button value="beaches"><ion-label>Playas</ion-label></ion-segment-button>
-        <ion-segment-button value="mountains"><ion-label>Montañas</ion-label></ion-segment-button>
-        <ion-segment-button value="cities"><ion-label>Ciudades</ion-label></ion-segment-button>
-      </ion-segment>
-
-      <div [hidden]="exploreCategorySegment !== 'beaches'">
-        <ion-grid fixed class="ion-margin-top"><ion-row>
-          <ion-col size="12" size-sm="6" size-md="3" *ngFor="let destination of beachDestinations">
-            <ion-card class="destination-card" [routerLink]="['/destinations', destination.id]">
-              <div class="card-image-container"><ion-img [src]="destination.main_image_url" [alt]="destination.name"></ion-img><ion-badge color="primary" class="card-badge">{{ destination.category?.name }}</ion-badge></div>
-              <ion-card-header><ion-card-title>{{ destination.name }}</ion-card-title><ion-card-subtitle>{{ destination.country }}</ion-card-subtitle></ion-card-header>
-            </ion-card>
-          </ion-col>
-        </ion-row></ion-grid>
-      </div>
-       </section>
-    
-    <section class="ion-padding">
-      <div class="trending-section">
-        <ion-item lines="none" class="section-header ion-no-padding">
-          <div slot="start">
-            <h2 class="ion-no-margin">Destinos tendencia 2025</h2>
-            <p class="ion-no-margin ion-text-small ion-text-color-step-600">Los lugares más populares para visitar</p>
-          </div>
-          <ion-button slot="end" fill="outline" size="small" color="primary" (click)="viewAll('trending')">Ver todos<ion-icon slot="end" name="arrow-forward-outline"></ion-icon></ion-button>
+      <section class="ion-padding">
+        <ion-item lines="none" class="section-header">
+            <div slot="start">
+                <h2 class="ion-no-margin">Destinos populares</h2>
+                <p class="ion-no-margin ion-text-small">Descubre los lugares más visitados</p>
+            </div>
         </ion-item>
         <ion-grid fixed class="ion-margin-top">
-          <ion-row>
-            <ion-col size="12" size-sm="6" size-md="3" *ngFor="let destination of trendingDestinations; let i = index">
-              <ion-card class="destination-card" [routerLink]="['/destinations', destination.id]">
-                <div class="card-image-container">
-                  <ion-img [src]="destination.main_image_url" [alt]="destination.name"></ion-img>
-                  <div class="trending-badge">{{ i + 1 }}</div>
-                </div>
-                <ion-card-header>
-                  <ion-card-title>{{ destination.name }}</ion-card-title>
-                  <ion-card-subtitle>{{ destination.country }}</ion-card-subtitle>
-                </ion-card-header>
-              </ion-card>
-            </ion-col>
-          </ion-row>
+            <ion-row>
+                <ion-col size="12" size-sm="6" size-md="3" *ngFor="let destination of popularDestinations">
+                    <ion-card class="destination-card" [routerLink]="['/destinations', destination.id]">
+                        <div class="card-image-container">
+                            <ion-img [src]="destination.main_image_url" [alt]="destination.name"></ion-img>
+                            <ion-badge color="primary" class="card-badge">{{ destination.category?.name }}</ion-badge>
+                        </div>
+                        <ion-card-header>
+                            <ion-card-title>{{ destination.name }}</ion-card-title>
+                            <ion-card-subtitle>{{ destination.country }}</ion-card-subtitle>
+                        </ion-card-header>
+                    </ion-card>
+                </ion-col>
+            </ion-row>
         </ion-grid>
-      </div>
-    </section>
+      </section>
+
+      <section class="ion-padding">
+  <h2 class="ion-no-margin">Descubre lugares increíbles</h2>
+  <p class="ion-no-margin ion-text-small ion-text-color-step-600 ion-margin-bottom">Encuentra los mejores sitios para tu aventura</p>
+  
+  <ion-segment [(ngModel)]="explorePoiCategory" (ionChange)="onPoiCategoryChange()" mode="md" class="category-segment" scrollable="true">
+      <ion-segment-button value="Restaurante">
+        <ion-icon name="restaurant-outline"></ion-icon>
+        <ion-label>Restaurantes</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="Atracción Turística">
+        <ion-icon name="camera-outline"></ion-icon>
+        <ion-label>Atracciones</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="Museo">
+        <ion-icon name="library-outline"></ion-icon>
+        <ion-label>Museos</ion-label>
+      </ion-segment-button>
+       <ion-segment-button value="Parque">
+        <ion-icon name="leaf-outline"></ion-icon>
+        <ion-label>Parques</ion-label>
+      </ion-segment-button>
+  </ion-segment>
+
+  <div class="ion-margin-top">
+  <div *ngIf="poisByCategoryLoading" class="ion-text-center ion-padding">
+    <ion-spinner name="crescent"></ion-spinner>
+  </div>
+
+  <div *ngIf="!poisByCategoryLoading">
+    <div *ngIf="poisByCategory.length === 0" class="ion-padding ion-text-center">
+      <p>No se encontraron lugares en esta categoría.</p>
+    </div>
+
+    <swiper-container 
+      *ngIf="poisByCategory.length > 0"
+      slides-per-view="auto" 
+      space-between="10" 
+      free-mode="true">
+
+      <swiper-slide *ngFor="let poi of poisByCategory">
+        <ion-card class="poi-card" [routerLink]="['/poi', poi.id]">
+          <div class="poi-card-image" [style.background-image]="'url(' + poi.main_image_url + ')'"></div>
+          <ion-card-header>
+            <ion-card-title>{{ poi.name }}</ion-card-title>
+            <ion-card-subtitle>{{ $any(poi).destination.name }}</ion-card-subtitle>
+          </ion-card-header>
+        </ion-card>
+      </swiper-slide>
+
+    </swiper-container>
+    </div>
+</div>
+</section>
+      
+      <section class="ion-padding">
+        <div class="trending-section">
+            </div>
+      </section>
+    </div>
+  </div>
+
+  <div *ngIf="searchPerformed">
+    <div *ngIf="isSearching" class="ion-text-center ion-padding">
+      <ion-spinner name="crescent"></ion-spinner>
+    </div>
+
+    <div *ngIf="!isSearching">
+      <ion-list>
+        <ion-list-header>
+          <ion-label>Resultados ({{ searchResults.length }})</ion-label>
+        </ion-list-header>
+
+        <div *ngIf="searchResults.length === 0" class="ion-padding ion-text-center">
+          <ion-icon name="sad-outline" size="large" color="medium"></ion-icon>
+          <p>No se encontraron resultados para "<strong>{{ searchTerm }}</strong>".</p>
+          <p class="ion-text-small">Intenta con otras palabras clave.</p>
+        </div>
+
+        <ng-container *ngFor="let result of searchResults">
+          <div [ngSwitch]="result.type">
+            
+            <ion-item *ngSwitchCase="'destination'" detail="true" [routerLink]="['/destinations', result.id]">
+              <ion-thumbnail slot="start">
+                <img [src]="result.main_image_url" [alt]="result.name" />
+              </ion-thumbnail>
+              <ion-label>
+                <h2>{{ result.name }}</h2>
+                <p>Destino en {{ $any(result).country }}</p>
+              </ion-label>
+              <ion-icon name="map-outline" slot="end" color="tertiary"></ion-icon>
+            </ion-item>
+
+            <ion-item *ngSwitchCase="'poi'" detail="true" [routerLink]="['/poi', result.id]">
+              <ion-thumbnail slot="start">
+                <img [src]="result.main_image_url" [alt]="result.name" />
+              </ion-thumbnail>
+              <ion-label>
+                <h2>{{ result.name }}</h2>
+                <p>{{ $any(result).category.name }}</p>
+              </ion-label>
+              <ion-icon [name]=" $any(result).category.icon_name || 'location-outline'" slot="end" color="secondary"></ion-icon>
+            </ion-item>
+
+          </div>
+        </ng-container>
+      </ion-list>
+    </div>
   </div>
 </ion-content>

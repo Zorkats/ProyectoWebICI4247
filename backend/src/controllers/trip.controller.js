@@ -1,11 +1,12 @@
 import db from '../models/index.js';
 
-const { Trip, User, Destination, TripStatus, Sequelize } = db;
+const { Trip, User, Destination, TripStatus, Sequelize, ItineraryItem, PointOfInterest, PoiCategory } = db;
 
 // POST /api/trips
 // Crear un nuevo viaje para el usuario autenticado
 export const createTrip = async (req, res) => {
   const { name, destination_id, start_date, end_date, budget, status_id, description, image_url } = req.body;
+  //image_url = "https://i.imgur.com/xblZYz0.jpeg "
   try {
     // El userId se obtiene del token de autenticación a través del middleware
     const userId = req.user.id;
@@ -96,26 +97,87 @@ export const getNextTrip = async (req, res) => {
 // GET /api/trips/:tripId
 // Obtener detalle de un viaje específico
 export const getTripDetails = async (req, res) => {
-  try {
-    const userId = req.user.id;
-    const { tripId } = req.params;
+  const { tripId } = req.params;
+  const userId = req.user.id; // Asumiendo que tienes la info del usuario autenticado
 
-    const trip = await Trip.findByPk(tripId, {
-      where: { user_id: userId },
+  try {
+    const trip = await Trip.findOne({
+      where: { id: tripId, user_id: userId }, // Asegura que el viaje pertenece al usuario
       include: [
-        { model: User, as: 'user', attributes: ['id', 'name', 'email'] },
-        { model: Destination, as: 'destination' },
-        { model: TripStatus, as: 'status' }
+        {
+          model: Destination, // Incluye el destino principal si aún lo usas
+          as: 'destination'
+        },
+        {
+          model: ItineraryItem,
+          as: 'itineraryItems',
+          include: [ // Anidamos para obtener el detalle del POI en cada item
+            {
+              model: PointOfInterest,
+              as: 'poi',
+              include: [ // E incluso la categoría del POI
+                { model: PoiCategory, as: 'category', attributes: ['name', 'icon_name'] }
+              ]
+            }
+          ]
+        }
+      ],
+      // Ordenamos los items del itinerario por número de día
+      order: [
+        [{ model: ItineraryItem, as: 'itineraryItems' }, 'day_number', 'ASC'],
+        [{ model: ItineraryItem, as: 'itineraryItems' }, 'start_time', 'ASC']
       ]
     });
 
     if (!trip) {
-      return res.status(404).json({ message: 'Viaje no encontrado o no pertenece a este usuario.' });
+      return res.status(404).json({ message: 'Viaje no encontrado o no te pertenece.' });
     }
+
     res.json(trip);
   } catch (error) {
     console.error('Error al obtener el detalle del viaje:', error.message);
-    res.status(500).json({ message: 'Error en el servidor al obtener el detalle del viaje.' });
+    res.status(500).json({ message: 'Error en el servidor.' });
+  }
+};
+
+// --- FUNCIÓN NUEVA: addItineraryItem ---
+// Añade un POI al itinerario de un viaje existente.
+export const addItineraryItem = async (req, res) => {
+  const { tripId } = req.params;
+  const { poi_id, day_number, notes, start_time } = req.body;
+  const userId = req.user.id;
+
+  try {
+    // 1. Verificar que el viaje existe y pertenece al usuario
+    const trip = await Trip.findOne({ where: { id: tripId, user_id: userId } });
+    if (!trip) {
+      return res.status(404).json({ message: 'Viaje no encontrado o no te pertenece.' });
+    }
+
+    // 2. Verificar que el POI existe
+    const poi = await PointOfInterest.findByPk(poi_id);
+    if (!poi) {
+      return res.status(404).json({ message: 'Punto de Interés no encontrado.' });
+    }
+
+    // 3. Crear el nuevo item en el itinerario
+    const newItem = await ItineraryItem.create({
+      trip_id: tripId,
+      poi_id,
+      day_number,
+      notes,
+      start_time
+    });
+
+    // 4. Devolver el item creado con su detalle para que el frontend actualice la UI
+    const result = await ItineraryItem.findByPk(newItem.id, {
+      include: [{ model: PointOfInterest, as: 'poi' }]
+    });
+
+    res.status(201).json(result);
+  } catch (error) {
+    console.error('Error al añadir item al itinerario:', error.message);
+    res.status(500).json({ message: 'Error en el servidor.' });
   }
 };
 

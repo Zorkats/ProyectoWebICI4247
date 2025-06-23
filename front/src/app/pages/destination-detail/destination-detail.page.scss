@@ -1,0 +1,92 @@
+// src/app/pages/destination-detail/destination-detail.page.scss
+
+// Aseguramos que el fondo de la página tenga un color base claro.
+ion-content {
+  --background: var(--ion-color-light, #f4f5f8);
+}
+
+// Estilos para la imagen de cabecera (se mantienen igual)
+.hero-image-container {
+  height: 40vh;
+  width: 100%;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 50%;
+    background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+  }
+}
+
+// Estilos para el título sobre la imagen (se mantienen igual)
+.hero-title {
+  position: absolute;
+  bottom: 20px;
+  left: 16px;
+  right: 16px;
+  z-index: 2;
+  color: #fff;
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+
+  h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin: 0;
+  }
+  p {
+    margin: 0;
+    font-size: 1.2rem;
+  }
+}
+
+
+// --- SECCIÓN CORREGIDA ---
+.content-sheet {
+  position: relative;
+  z-index: 3;
+  // Aumentamos un poco el solapamiento para que se vea mejor
+  margin-top: -40px; 
+  // LA CORRECCIÓN CLAVE: Nos aseguramos de que el fondo sea el color base de la app (generalmente blanco)
+  background: var(--ion-color-base, #ffffff);
+  border-radius: 24px 24px 0 0; // Bordes un poco más pronunciados
+  // Añadimos padding arriba para que el contenido no se pegue al borde
+  padding-top: 16px; 
+  min-height: 65vh;
+}
+
+// Estilo para que el segmento se vea mejor dentro de la hoja
+ion-segment {
+  // Quitamos el margen superior que pueda tener por defecto
+  margin-top: 0;
+}
+
+.description-text {
+  color: var(--ion-color-step-600, #666);
+  line-height: 1.6;
+}
+
+.poi-list-card {
+  margin: 0 0 16px 0;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  border-radius: 12px;
+
+  ion-img {
+    height: 150px;
+    object-fit: cover;
+  }
+
+  ion-card-header {
+    padding: 12px;
+  }
+
+  ion-card-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+  }
+}

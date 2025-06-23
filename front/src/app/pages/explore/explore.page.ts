@@ -1,11 +1,17 @@
 import { Component, ViewChild, OnInit } from '@angular/core';
 import { LoadingController } from '@ionic/angular';
-import { finalize } from 'rxjs/operators';
-
+import { finalize, debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
+import { Subject, Subscription } from 'rxjs';
 import { DestinationService } from '../../services/destination.service';
 import { Destination } from '../../models/destination.model';
-
+import { PointOfInterest } from 'src/app/models/poi.model';
 import { SideBarComponent } from '../../components/side-bar/side-bar.component';
+import { SearchService, SearchResult } from '../../services/search.service';
+
+import { register } from 'swiper/element/bundle';
+
+// Llama a la función de registro FUERA de la clase del componente
+register();
 
 @Component({
   selector: 'app-explore',
@@ -26,19 +32,66 @@ export class ExplorePage implements OnInit {
   public mountainDestinations: Destination[] = [];
   public cityDestinations: Destination[] = [];
   public trendingDestinations: Destination[] = [];
+  public explorePoiCategory: string = 'Restaurante'; // Categoría por defecto
+  public poisByCategory: PointOfInterest[] = [];
+  public poisByCategoryLoading: boolean = false;
 
   public isLoading: boolean = true;
 
+  // --- NUEVAS PROPIEDADES PARA LA BÚSQUEDA ---
+  public searchResults: SearchResult[] = [];
+  public searchPerformed: boolean = false; // Para saber si mostrar resultados o la vista inicial
+  public isSearching: boolean = false;
+  private searchSubject = new Subject<string>();
+  private searchSubscription!: Subscription;
+
   constructor(
     private destinationService: DestinationService,
-    private loadingCtrl: LoadingController
+    private loadingCtrl: LoadingController,
+    private searchService: SearchService // <-- INYECTAR NUEVO SERVICIO
   ) {}
 
   ngOnInit() {
+    // Configurar el "debouncing" para la búsqueda
+    this.searchSubscription = this.searchSubject.pipe(
+      debounceTime(400), // Espera 400ms después de la última pulsación
+      distinctUntilChanged(), // No busca si el término es el mismo
+      switchMap(searchTerm => {
+        this.isSearching = true;
+        return this.searchService.search(searchTerm, this.searchCategorySegment).pipe(
+          finalize(() => this.isSearching = false)
+        );
+      })
+    ).subscribe(results => {
+      this.searchResults = results;
+    });
+  }
+
+  ngOnDestroy() {
+    this.searchSubscription.unsubscribe();
   }
 
   ionViewWillEnter() {
-    this.loadDestinations();
+    if (!this.searchPerformed) {
+      this.loadDestinations();
+    }
+        this.loadPoisByCategory(); // Cargamos los POIs de la categoría por defecto
+
+  }
+
+  loadPoisByCategory() {
+    this.poisByCategoryLoading = true;
+    // Usamos el servicio de búsqueda, pasamos un término vacío para obtener todo de esa categoría
+    this.searchService.search('', this.explorePoiCategory)
+      .pipe(finalize(() => this.poisByCategoryLoading = false))
+      .subscribe(results => {
+        // Filtramos por si acaso la API devuelve otros tipos, aunque no debería
+        this.poisByCategory = results.filter(r => r.type === 'poi') as PointOfInterest[];
+      });
+  }
+
+  onPoiCategoryChange() {
+    this.loadPoisByCategory();
   }
 
   async loadDestinations() {
@@ -77,8 +130,22 @@ export class ExplorePage implements OnInit {
   }
 
   performSearch() {
-   
+    if (this.searchTerm.trim() === '') {
+      this.searchPerformed = false;
+      this.searchResults = [];
+      return;
+    }
+    this.searchPerformed = true;
+    this.searchSubject.next(this.searchTerm.trim());
   }
+
+  // NUEVO: Manejar cambio de categoría para volver a buscar
+  onCategoryChange() {
+    if (this.searchPerformed) {
+      this.performSearch();
+    }
+  }
+
   createAiItinerary() {
   
   }

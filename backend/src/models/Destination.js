@@ -36,6 +36,10 @@ export default (sequelize, DataTypes) => {
     // Esta asociación también se beneficiará de 'underscored: true'
     Destination.belongsTo(models.DestinationCategory, { foreignKey: 'category_id', as: 'category' });
     Destination.hasMany(models.Trip, { foreignKey: 'destination_id' });
+    Destination.hasMany(models.PointOfInterest, { 
+      foreignKey: 'destination_id', 
+      as: 'pois' 
+    });
   };
 
   return Destination;
